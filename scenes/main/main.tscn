@@ -1,0 +1,240 @@
+[gd_scene format=3 uid="uid://bkwbxjoycek80"]
+
+[ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scenes/main/main.gd" id="1_6q06x"]
+[ext_resource type="Script" uid="uid://degfhh1qod7vp" path="res://scripts/ui/status_list.gd" id="1_hyk8p"]
+[ext_resource type="Texture2D" uid="uid://cb5ml1mjgv77g" path="res://assets/IMG_2495.JPG" id="1_k2fmo"]
+[ext_resource type="Script" uid="uid://x0pe2fvd14he" path="res://scripts/ui/hide_items_button.gd" id="2_iuonh"]
+[ext_resource type="Script" uid="uid://e0rkocvg1pat" path="res://scripts/ui/status_container.gd" id="2_l3cfh"]
+
+[node name="Main" type="Node" unique_id=526553538]
+script = ExtResource("1_6q06x")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1917557195]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_k2fmo")
+stretch_mode = 6
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1012598903]
+
+[node name="MainUI" type="Control" parent="UI" unique_id=1067795214]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBarMargin" type="MarginContainer" parent="UI/MainUI" unique_id=551515216]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="TopBarHBox" type="HBoxContainer" parent="UI/MainUI/TopBarMargin" unique_id=1701192445]
+layout_mode = 2
+
+[node name="LeftGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=305174180]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeasonLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1557779630]
+layout_mode = 2
+text = "Spring"
+
+[node name="DayLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1615458080]
+layout_mode = 2
+text = "Day 1"
+
+[node name="TimeLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=61512175]
+layout_mode = 2
+text = "06:00"
+
+[node name="CenterGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=762919774]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="LocationLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=1127296888]
+layout_mode = 2
+text = "Beach"
+
+[node name="WeatherLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=927686123]
+layout_mode = 2
+text = "Sunny 25°C"
+
+[node name="RightGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=1252785398]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="SettingsBtn" type="Button" parent="UI/MainUI/TopBarMargin/TopBarHBox/RightGroup" unique_id=704035928]
+layout_mode = 2
+text = "Settings"
+
+[node name="MainHBox" type="HBoxContainer" parent="UI/MainUI" unique_id=1198053803]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="UI/MainUI/MainHBox" unique_id=1042799773]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="ActionButtons" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=794249501]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="search" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons" unique_id=1884492762]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "探索"
+flat = true
+
+[node name="Button2" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons" unique_id=1973209153]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "探索"
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons" unique_id=1466062558]
+layout_mode = 2
+
+[node name="StatusContainer" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=1818772140]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_l3cfh")
+
+[node name="StatusScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer" unique_id=866869229]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatusList" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll" unique_id=1155731568]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+script = ExtResource("1_hyk8p")
+
+[node name="HungerItem" type="HBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1495292397]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="TextureRect" type="TextureRect" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=1751659538]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=1252407318]
+layout_mode = 2
+text = "Label"
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=11121120]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+step = 1.0
+value = 80.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem/ProgressBar" unique_id=401458044]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "80/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightPanel" type="VBoxContainer" parent="UI/MainUI/MainHBox" unique_id=258004859]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="SpecialRow" type="HBoxContainer" parent="UI/MainUI/MainHBox/RightPanel" unique_id=556174075]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="SpecialScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/RightPanel/SpecialRow" unique_id=4337721]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="SpecialGrid" type="GridContainer" parent="UI/MainUI/MainHBox/RightPanel/SpecialRow/SpecialScroll" unique_id=1038693183]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+columns = 6
+
+[node name="Button4" type="Button" parent="UI/MainUI/MainHBox/RightPanel/SpecialRow/SpecialScroll/SpecialGrid" unique_id=1817530442]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+text = "建"
+
+[node name="Button" type="Button" parent="UI/MainUI/MainHBox/RightPanel/SpecialRow" unique_id=1812840034]
+layout_mode = 2
+text = "筛选"
+
+[node name="ResourceArea" type="Control" parent="UI/MainUI/MainHBox/RightPanel" unique_id=2036732728]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LocationItemsArea2" type="VBoxContainer" parent="UI/MainUI/MainHBox/RightPanel" unique_id=9642046]
+layout_mode = 2
+
+[node name="HideItemsButton" type="Button" parent="UI/MainUI/MainHBox/RightPanel/LocationItemsArea2" unique_id=1621743665]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "隐藏"
+script = ExtResource("2_iuonh")
+
+[node name="ItemsScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/RightPanel/LocationItemsArea2" unique_id=1623564999]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LocationItemsGrid" type="GridContainer" parent="UI/MainUI/MainHBox/RightPanel/LocationItemsArea2/ItemsScroll" unique_id=1156428542]
+layout_mode = 2
+columns = 6
+
+[node name="Button" type="Button" parent="UI/MainUI/MainHBox/RightPanel/LocationItemsArea2/ItemsScroll/LocationItemsGrid" unique_id=1118862918]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "测试"
+
+[node name="BackpackArea" type="HBoxContainer" parent="UI/MainUI/MainHBox/RightPanel" unique_id=1969714766]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="UI/MainUI/MainHBox/RightPanel/BackpackArea" unique_id=1252919420]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BoxContainer2" type="BoxContainer" parent="UI/MainUI/MainHBox/RightPanel/BackpackArea" unique_id=1626346284]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BoxContainer3" type="BoxContainer" parent="UI/MainUI/MainHBox/RightPanel/BackpackArea" unique_id=1049676364]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/search" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Button2" to="." method="_on_button_2_pressed"]

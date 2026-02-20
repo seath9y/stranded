@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://wcwhx0dl0e1x"]
+
+[ext_resource type="Texture2D" uid="uid://ym3cf0ir872p" path="res://assets/icons/1/1-export22.png" id="1_rpddq"]
+[ext_resource type="Script" uid="uid://cnhys87edxapu" path="res://scripts/items/item_definition.gd" id="2_kqk5y"]
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/items/tag_data.gd" id="3_kqk5y"]
+
+[resource]
+script = ExtResource("2_kqk5y")
+id = "f2"
+name = "鱼"
+icon = ExtResource("1_rpddq")
+description = "鱼"
+type = 8
+stack_type = 1
+has_spoilage = true
+metadata/_custom_type_script = "uid://cnhys87edxapu"

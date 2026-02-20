@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bnp4f7awf8c7r"]
+
+[ext_resource type="Script" uid="uid://cnhys87edxapu" path="res://scripts/items/item_definition.gd" id="1_ajgmy"]
+[ext_resource type="Texture2D" uid="uid://cjuxl5yl7show" path="res://assets/icons/1/1-export3.png" id="1_yr6eq"]
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/items/tag_data.gd" id="3_dloi2"]
+
+[sub_resource type="Resource" id="Resource_dloi2"]
+script = ExtResource("3_dloi2")
+type = 4
+metadata/_custom_type_script = "uid://dxh5ska5gsle"
+
+[resource]
+script = ExtResource("1_ajgmy")
+id = "f1"
+name = "椰子"
+icon = ExtResource("1_yr6eq")
+description = "椰子"
+stack_type = 1
+tags = Array[ExtResource("3_dloi2")]([SubResource("Resource_dloi2")])
+metadata/_custom_type_script = "uid://cnhys87edxapu"

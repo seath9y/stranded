@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://by75kwnrnxx1h"]
+
+[ext_resource type="Texture2D" uid="uid://mafinbiovw11" path="res://assets/ui/01.png" id="1_4oaji"]
+[ext_resource type="Script" uid="uid://bv17c7ojxrahq" path="res://scripts/ui/components/item_card.gd" id="2_xoqax"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g7wlt"]
+texture = ExtResource("1_4oaji")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4oaji"]
+bg_color = Color(0.88235295, 0.70980394, 0.57254905, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Card" type="PanelContainer" unique_id=216685150]
+offset_right = 60.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxTexture_g7wlt")
+script = ExtResource("2_xoqax")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=260253892]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="ContentMargin" type="MarginContainer" parent="VBox" unique_id=1677860368]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Overlay" type="PanelContainer" parent="VBox/ContentMargin" unique_id=617987882]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4oaji")
+
+[node name="Icon" type="TextureRect" parent="VBox/ContentMargin/Overlay" unique_id=1555191020]
+texture_filter = 1
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Stats" type="Control" parent="VBox/ContentMargin/Overlay" unique_id=727447483]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LeftGroup" type="HBoxContainer" parent="VBox/ContentMargin/Overlay/Stats" unique_id=799754345]
+layout_mode = 1
+mouse_filter = 2
+
+[node name="RightGroup" type="HBoxContainer" parent="VBox/ContentMargin/Overlay/Stats" unique_id=941115154]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="HeaderMargin" type="MarginContainer" parent="VBox" unique_id=22968340]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HeaderHBox" type="HBoxContainer" parent="VBox/HeaderMargin" unique_id=594602958]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="VBox/HeaderMargin/HeaderHBox" unique_id=1048724557]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "苹果"
+
+[node name="Stats2" type="Control" parent="VBox/HeaderMargin/HeaderHBox" unique_id=1035203197]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Number" type="Label" parent="VBox/HeaderMargin/HeaderHBox" unique_id=721144247]
+layout_mode = 2
+text = "1"

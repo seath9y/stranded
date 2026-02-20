@@ -1,0 +1,12 @@
+[gd_resource type="Theme" format=3 uid="uid://bchkms2m2gs0j"]
+
+[ext_resource type="StyleBox" uid="uid://bt2asm81j7fn" path="res://theme/tabn.tres" id="1_bpsyn"]
+[ext_resource type="StyleBox" uid="uid://cs0vxkqliu4bc" path="res://theme/tabs.tres" id="2_rmvw8"]
+[ext_resource type="StyleBox" uid="uid://duct5mbr6lm6h" path="res://theme/pan.tres" id="3_rmvw8"]
+
+[resource]
+Button/styles/focus = ExtResource("2_rmvw8")
+Button/styles/hover = ExtResource("2_rmvw8")
+Button/styles/normal = ExtResource("1_bpsyn")
+Button/styles/pressed = ExtResource("2_rmvw8")
+PanelContainer/styles/panel = ExtResource("3_rmvw8")

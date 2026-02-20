@@ -11,9 +11,9 @@ var current_time: float = 360  # 分钟，6:00 = 360
 var current_day: int = 1
 var current_season: String = "spring"
 
-func spawn_enemy(type: String = "normal", count: int = 1) -> void:
-	for i in range(count):
-		print("生成一个 ", type, " 敌人")
+#func spawn_enemy(type: String = "normal", count: int = 1) -> void:
+	#for i in range(count):
+		#print("生成一个 ", type, " 敌人")
 
 # type类型,分m,时h
 func advance_time(time: float, type: String = "m"):

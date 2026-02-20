@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TagData" format=3 uid="uid://dcoqhpt2lq038"]
+
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/items/tag_data.gd" id="1_3kp8q"]
+
+[resource]
+script = ExtResource("1_3kp8q")
+tag_name = &"斧子"
+metadata/_custom_type_script = "uid://dxh5ska5gsle"

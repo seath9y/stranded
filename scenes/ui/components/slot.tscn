@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ddph8v8mcrxcc"]
+
+[ext_resource type="Script" uid="uid://cr8nlpnhjx8l5" path="res://scripts/items/Slot.gd" id="1_urwfp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6v7k"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.77254903, 0.5803922, 0.41960785, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Slot" type="AspectRatioContainer" unique_id=245949928]
+custom_minimum_size = Vector2(100, 120)
+offset_right = 100.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+ratio = 0.75
+script = ExtResource("1_urwfp")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=54232320]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j6v7k")

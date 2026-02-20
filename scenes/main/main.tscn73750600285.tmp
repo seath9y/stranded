@@ -1,0 +1,291 @@
+[gd_scene format=3 uid="uid://bkwbxjoycek80"]
+
+[ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scenes/main/main.gd" id="1_6q06x"]
+[ext_resource type="Script" uid="uid://degfhh1qod7vp" path="res://scripts/ui/status_list.gd" id="1_hyk8p"]
+[ext_resource type="Script" uid="uid://e0rkocvg1pat" path="res://scripts/ui/status_container.gd" id="2_l3cfh"]
+[ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/Gemini_Generated_Image_q1kmwmq1kmwmq1km.png" id="2_ow5a4"]
+[ext_resource type="Theme" uid="uid://dvfjyd3cexc4r" path="res://theme/pixel_theme.tres" id="3_ow5a4"]
+[ext_resource type="Theme" uid="uid://cx7r8se6ktcyp" path="res://theme/new_theme.tres" id="6_ow5a4"]
+[ext_resource type="Script" uid="uid://camivjoavoxbl" path="res://scripts/ui/components/special_scroll.gd" id="7_hujxm"]
+
+[node name="Main" type="Node" unique_id=526553538]
+script = ExtResource("1_6q06x")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1917557195]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ow5a4")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1012598903]
+
+[node name="MainUI" type="Control" parent="UI" unique_id=1067795214]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ow5a4")
+
+[node name="TopBarMargin" type="PanelContainer" parent="UI/MainUI" unique_id=1392820487]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 47.0
+grow_horizontal = 2
+
+[node name="TopBarHBox" type="HBoxContainer" parent="UI/MainUI/TopBarMargin" unique_id=1701192445]
+layout_mode = 2
+
+[node name="LeftGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=305174180]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeasonLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1557779630]
+layout_mode = 2
+text = "Spring"
+
+[node name="DayLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1615458080]
+layout_mode = 2
+text = "Day 1"
+
+[node name="TimeLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=61512175]
+layout_mode = 2
+text = "06:00"
+
+[node name="CenterGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=762919774]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="LocationLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=1127296888]
+layout_mode = 2
+text = "Beach"
+
+[node name="WeatherLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=927686123]
+layout_mode = 2
+text = "Sunny 25°C"
+
+[node name="RightGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=1252785398]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="SettingsBtn" type="Button" parent="UI/MainUI/TopBarMargin/TopBarHBox/RightGroup" unique_id=704035928]
+layout_mode = 2
+text = "Settings"
+
+[node name="MainHBox" type="HBoxContainer" parent="UI/MainUI" unique_id=1198053803]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 54.0
+offset_right = -12.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="UI/MainUI/MainHBox" unique_id=1042799773]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.15
+
+[node name="ActionButtons" type="PanelContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=1855963432]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Control" type="Control" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons" unique_id=1629725497]
+layout_mode = 2
+
+[node name="search" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control" unique_id=1884492762]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 4.0
+offset_right = 132.0
+offset_bottom = 55.0
+text = "探索"
+flat = true
+
+[node name="Button2" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control" unique_id=1973209153]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 53.0
+offset_right = 126.0
+offset_bottom = 114.0
+text = "加物品测试"
+flat = true
+
+[node name="StatusContainer" type="PanelContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=775180314]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_l3cfh")
+
+[node name="StatusScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer" unique_id=866869229]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatusList" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll" unique_id=1155731568]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+script = ExtResource("1_hyk8p")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=261899529]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/TextureProgressBar" unique_id=1753034934]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HungerItem" type="HBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1495292397]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="TextureRect" type="TextureRect" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=1751659538]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=1252407318]
+layout_mode = 2
+text = "Label"
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem" unique_id=11121120]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+step = 1.0
+value = 80.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/HungerItem/ProgressBar" unique_id=401458044]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "80/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainUI/MainHBox" unique_id=1329253568]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 7
+
+[node name="RightPanel" type="VBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer" unique_id=258004859]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="SpecialRow" type="HBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel" unique_id=556174075]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+theme = ExtResource("6_ow5a4")
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow" unique_id=665175716]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer" unique_id=443716452]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+
+[node name="SpecialScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer" unique_id=4337721]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("7_hujxm")
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer/SpecialScroll" unique_id=1322783541]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer/SpecialScroll/MarginContainer" unique_id=1463344799]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="SpecialScroll2" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer" unique_id=994007090]
+visible = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer/SpecialScroll2" unique_id=615481281]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow" unique_id=971455147]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_ow5a4")
+
+[node name="TabContainer2" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2" unique_id=1801476740]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+
+[node name="SpecialScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2" unique_id=865550441]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+metadata/_tab_index = 0
+
+[node name="Label2" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2/SpecialScroll" unique_id=302109382]
+layout_mode = 2
+
+[node name="TabContainer3" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel" unique_id=45233010]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="SpecialScroll" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3" unique_id=2050198131]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+metadata/_tab_index = 0
+
+[node name="Label2" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/SpecialScroll" unique_id=552415435]
+layout_mode = 2
+
+[node name="SpecialScroll2" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3" unique_id=1548626792]
+visible = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+metadata/_tab_index = 1
+
+[node name="Label2" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/SpecialScroll2" unique_id=1033883617]
+layout_mode = 2
+
+[connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control/search" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control/Button2" to="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/TabContainer/SpecialScroll" method="_on_button_2_pressed"]

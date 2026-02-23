@@ -1,14 +1,36 @@
 extends AspectRatioContainer
 class_name Slot
 
-var my_zone_type: ItemData.Zone
-var zone_manager: Node 
+@onready var lock_overlay = $LockOverlay
 
+var zone_manager: Node 
+var is_locked: bool = false
+
+func set_locked(locked: bool):
+	is_locked = locked
+	if lock_overlay:
+		lock_overlay.visible = is_locked
+		
+	# 【核心修复】：格子被上锁了，直接找亲儿子 Card 弹射！
+	if is_locked:
+		for child in get_children():
+			if child is Card:
+				var ground_zone = get_tree().get_first_node_in_group("ground_zone")
+				if ground_zone and ground_zone.has_method("add_item"):
+					var state = {}
+					if child.has_method("get_dynamic_state"):
+						state = child.get_dynamic_state()
+					ground_zone.add_item(child.data, child.current_count, state)
+					print("🎒 空间失效，物品掉落至地面: [", child.data.name, " x", child.current_count, "]")
+				
+				child.queue_free()
 func _can_drop_data(at_position: Vector2, drag_data: Variant) -> bool:
 	var dropped_card = drag_data as Card
 	if not dropped_card:
 		return false
-		
+	# 【核心拦截】：如果格子未解锁，绝对禁止放东西！
+	if is_locked:
+		return false	
 	# 【修改 1】：安全遍历获取当前格子里的卡牌（无视底图）
 	var current_card: Card = null
 	for child in get_children():
@@ -24,35 +46,26 @@ func _can_drop_data(at_position: Vector2, drag_data: Variant) -> bool:
 		# 如果是同名卡牌且允许堆叠，也允许放下
 		if dropped_card.data.id == current_card.data.id and current_card.data.stack_type != ItemData.StackType.不可堆叠:
 			return true
-
-	# 2. 如果无互动（或是空格子），再判断当前卡牌是否允许“放置”在这个区域
-	return my_zone_type in dropped_card.data.allowed_zones
+	 #2. 如果无互动（或是空格子）
+	return true
 
 func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 	var dropped_card = drag_data as Card
 	
-	# 【修改 2】：把这里的 get_child(0) 也替换成安全遍历！
 	var current_card: Card = null
 	for child in get_children():
 		if child is Card:
 			current_card = child
 			break
 			
-	# 如果拖到自己身上，什么都不做
 	if current_card == dropped_card:
 		return
 
-	# 1. 优先判定并触发互动
 	if current_card != null:
 		var interacted = _handle_interaction(dropped_card, current_card)
 		if interacted:
-			return # 互动成功，流程结束！
-
-	# 2. 无互动触发：判断是否能放在该区域
-	if not (my_zone_type in dropped_card.data.allowed_zones):
-		return # 不能放在这里，拖拽无效，卡牌自动弹回原位
+			return 
 		
-	# 3. 能放的话，处理堆叠与插队逻辑
 	if dropped_card.data.stack_type != ItemData.StackType.不可堆叠:
 		var grid = self.get_parent()
 		for other_slot in grid.get_children():
@@ -60,11 +73,14 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 				if child is Card and child != dropped_card and child.data.id == dropped_card.data.id:
 					var is_fully_stacked = _handle_stacking(child, dropped_card)
 					if is_fully_stacked:
-						return # 堆叠完毕，手里没卡了，直接结束
+						return 
 
 	# 放到这一格，把其他物品后移
 	var my_index = self.get_index() 
 	zone_manager.reorganize_cards(dropped_card, my_index)
+	
+	# 【补全系统】：卡牌成功移动/放下后，重算环境加成
+	EnvironmentManager.call_deferred("recalculate_environment")
 # --- 修改后的互动判定（纯标签驱动） ---
 func _is_interaction_possible(tool_card: Card, target_card: Card) -> bool:
 	var tool_data = tool_card.data
@@ -89,27 +105,47 @@ func _handle_interaction(tool_card: Card, target_card: Card) -> bool:
 			continue
 			
 		if _has_action_tag(tool_data.action_tags, rule.required_tag):
-			
 			# ==========================================
-			# 匹配成功！执行交互与产出逻辑
+			# 匹配成功！开始“扣血”逻辑
 			# ==========================================
 			
-			# A. 生成产出物
-			if rule.result_item != null:
-				var ground_zone = get_tree().get_first_node_in_group("ground_zone")
-				if ground_zone and ground_zone.has_method("add_item"):
-					ground_zone.add_item(rule.result_item, 1)
-					
-			# B. 处理目标卡牌销毁
-			var target_slot = target_card.get_parent()
-			if target_slot:
-				target_slot.remove_child(target_card)
-			target_card.queue_free()
-			
-			if target_slot is Slot and target_slot.zone_manager:
-				target_slot.zone_manager.reorganize_cards()
+			# 1. 获取工具的破坏力 (如果没有设置 tool_power，默认威力是 1)
+			var power: int = 1
+			if "tool_power" in tool_data:
+				power = tool_data.tool_power
 				
-			# C. 处理工具卡牌消耗
+			# 2. 扣除目标（比如树）的耐久度
+			var is_target_destroyed = true # 假设目标没耐久系统，默认一击必杀
+			
+			if "has_durability" in target_data and target_data.has_durability:
+				target_card.current_durability -= power
+				print("【", target_data.name, "】被砍了一次，剩余耐久：", target_card.current_durability)
+				
+				if target_card.current_durability > 0:
+					is_target_destroyed = false # 耐久没归零，树还没倒！
+					target_card.update_display() # 刷新树的UI百分比
+					
+			# 3. 如果树倒了（或目标本身是一次性的）
+			if is_target_destroyed:
+				# A. 生成产出物
+				if rule.result_item != null:
+					var ground_zone = get_tree().get_first_node_in_group("ground_zone")
+					if ground_zone and ground_zone.has_method("add_item"):
+						ground_zone.add_item(rule.result_item, 1)
+						
+				# B. 处理目标卡牌销毁
+				var target_slot = target_card.get_parent()
+				if target_slot:
+					target_slot.remove_child(target_card)
+				target_card.queue_free()
+				
+				if target_slot is Slot and target_slot.zone_manager:
+					target_slot.zone_manager.reorganize_cards()
+					
+				# 触发重算
+				EnvironmentManager.call_deferred("recalculate_environment")
+				
+			# C. 无论树倒没倒，只要砍了，斧子就要消耗耐久
 			_consume_tool_card(tool_card)
 			
 			return true 
@@ -165,39 +201,49 @@ func _has_action_tag(action_tags: Array[TagData], required_tag: TagData) -> bool
 	return false
 
 # --- 辅助方法：处理工具消耗/耐久度 ---
+# --- 辅助方法：处理工具消耗/耐久度 ---
 func _consume_tool_card(tool_card: Card) -> void:
 	var tool_data = tool_card.data
 	var is_destroyed = false
 	
-	# 检查耐久度/数量扣除
-	# 注意：你提供的 Card 脚本里没看到 current_durability，如果有耐久系统，请在 Card 加上此变量
-	if tool_data.max_durability > 0 and "current_durability" in tool_card:
+	# 【修复Bug】：安全检查 has_durability
+	if "has_durability" in tool_data and tool_data.has_durability:
+		# 扣除卡牌实例的当前耐久
 		tool_card.current_durability -= 1
+		print("【", tool_data.name, "】消耗了1点耐久，剩余：", tool_card.current_durability)
+		
 		if tool_card.current_durability <= 0:
 			is_destroyed = true
-	else:
-		# 如果没有耐久度系统（或者当前工具无耐久设定），则作为普通材料扣除数量
+			
+	# 2. 如果没启用耐久，但是它是可以堆叠的消耗材料
+	elif tool_data.stack_type != ItemData.StackType.不可堆叠:
 		tool_card.current_count -= 1
 		if tool_card.current_count <= 0:
 			is_destroyed = true
 			
-	# 如果工具耗尽（耐久归零 或 数量归零）
+	# ==========================================
+	# 销毁与破损逻辑
+	# ==========================================
 	if is_destroyed:
+		print("【", tool_data.name, "】已损坏！")
 		var tool_slot = tool_card.get_parent()
 		if tool_slot:
-			tool_slot.remove_child(tool_card) # 同样先剥离
+			tool_slot.remove_child(tool_card) 
 			
-		# 检查是否需要生成损坏后的替代物 (例如：铁斧 -> 损坏的铁斧)
-		if not tool_data.destroy_on_break and tool_data.broken_item != null:
+		# 【修复Bug】：安全检查 destroy_on_break 和 broken_item
+		if "destroy_on_break" in tool_data and not tool_data.destroy_on_break and "broken_item" in tool_data and tool_data.broken_item != null:
 			var ground_zone = get_tree().get_first_node_in_group("ground_zone")
 			if ground_zone and ground_zone.has_method("add_item"):
 				ground_zone.add_item(tool_data.broken_item, 1)
 				
 		tool_card.queue_free()
 		
-		# 整理工具卡牌原先所在的区域 (填补空隙)
+		# 整理卡牌
 		if tool_slot is Slot and tool_slot.zone_manager:
 			tool_slot.zone_manager.reorganize_cards()
+			
+		# 【补全系统】：工具损坏彻底消失后，重算环境加成
+		EnvironmentManager.call_deferred("recalculate_environment")
 	else:
-		# 如果没销毁，仅仅是扣了耐久或数量，刷新 UI
+		# 没损坏，刷新 UI
 		tool_card.update_display()

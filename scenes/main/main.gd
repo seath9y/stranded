@@ -15,12 +15,13 @@ extends Node
 @export var item_i2: ItemData
 @export var item_i3: ItemData
 @export var item_axe: ItemData
+@export var item_i4: ItemData
 
 # --- 2. 获取三个区域的节点引用 ---
 # 注意：这里的路径 $VBoxContainer/RegionZone 需要改成你实际的节点路径！
-@onready var region_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer/RegionZone   # 1栏 地区
+@onready var area_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer/AreaZone   # 1栏 地区
 @onready var ground_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2/GroundZone   # 2栏 地点
-@onready var player_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/PlayerZone   # 3栏 人物
+@onready var player_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/PlayerZone   # 3栏 人物
 
 
 func _ready():
@@ -36,9 +37,9 @@ func spawn_initial_items():
 	
 	# 1. 在地区栏生成：1棵树，1个箱子
 	if item_tree:
-		region_zone.add_item(item_tree)
+		area_zone.add_item(item_tree)
 	if item_box:
-		region_zone.add_item(item_box)
+		area_zone.add_item(item_box)
 		
 	# 2. 在地点栏生成：2个椰子 (测试同类物品并排)
 	if item_i1:
@@ -51,9 +52,12 @@ func spawn_initial_items():
 	if item_i3:
 		ground_zone.add_item(item_i3)
 		player_zone.add_item(item_i3)
-	# 3. 在人物栏生成：1把石斧
+	## 3. 在人物栏生成：1把石斧
 	if item_axe:
 		player_zone.add_item(item_axe)
+		player_zone.add_item(item_axe)
+		player_zone.add_item(item_axe)
+		ground_zone.add_item(item_i4)
 		
 	print("--- 测试物品生成完毕 ---")
 

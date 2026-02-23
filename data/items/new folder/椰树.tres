@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cqvsfyhkqjid3"]
 
-[ext_resource type="Script" uid="uid://cnhys87edxapu" path="res://scripts/items/item_definition.gd" id="1_gy11t"]
-[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/items/tag_data.gd" id="1_x7pfr"]
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_x7pfr"]
 [ext_resource type="Resource" uid="uid://dcoqhpt2lq038" path="res://data/tag/斧子.tres" id="2_a3vcq"]
-[ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/items/interaction_rule.gd" id="3_78okg"]
+[ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/data/tool/interaction_rule.gd" id="3_78okg"]
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="4_a3vcq"]
+[ext_resource type="Script" uid="uid://bfg6isrq876bv" path="res://scripts/data/item/ItemData.gd" id="5_a3vcq"]
 
 [sub_resource type="Resource" id="Resource_78okg"]
 script = ExtResource("3_78okg")
@@ -13,12 +13,11 @@ result_item = ExtResource("4_a3vcq")
 metadata/_custom_type_script = "uid://dg1yeniq35udu"
 
 [resource]
-script = ExtResource("1_gy11t")
+script = ExtResource("5_a3vcq")
 id = "yeshu"
 name = "椰树"
 description = "椰树"
-type = 0
-allowed_zones = Array[int]([1])
 action_tags = Array[ExtResource("1_x7pfr")]([ExtResource("2_a3vcq")])
+has_durability = true
 interactions = Array[ExtResource("3_78okg")]([SubResource("Resource_78okg")])
 metadata/_custom_type_script = "uid://cnhys87edxapu"

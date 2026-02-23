@@ -1,5 +1,5 @@
 extends Resource
-class_name ItemData
+class_name ItemData备份
 
 # --- 基础信息 ---
 @export_group("基础信息 (Base Info)")
@@ -7,31 +7,16 @@ class_name ItemData
 @export var name: String = ""
 @export var icon: Texture2D # 物品图片
 @export_multiline var description: String = ""
+@export var weight: int = 0
 
 # --- 分类与栏位限制 ---
-enum ItemType {
-	地区资源,
-	建筑,
-	容器,
-	家具,
-	蓝图,
-	装备,
-	动物,
-	材料,
-	食物
-}
-
-# 定义栏位枚举
-enum Zone {
-	地区栏 = 1,
-	地点栏 = 2,
-	人物栏 = 3
-}
+enum ItemType { 地区资源, 建筑, 容器, 家具, 蓝图, 装备, 动物, 材料, 食物 }
+enum Zone { 地区栏 = 1, 地面栏 = 2, 人物栏 = 3 }
 
 @export_group("类型与位置 (Type & Placement)")
 @export var type: ItemType = ItemType.材料
 ## 这个物品允许被放置在哪些栏位？(可多选)
-@export var allowed_zones: Array[Zone] = [Zone.地点栏, Zone.人物栏]
+@export var allowed_zones: Array[Zone] = [Zone.地面栏, Zone.人物栏]
 
 # --- 堆叠与交互 ---
 @export_group("交互属性 (Interaction)")
@@ -45,11 +30,8 @@ enum StackType {
 @export var stack_type: StackType = StackType.不可堆叠
 ## 仅在堆叠类型为“固定数量”时生效（例如：一组箭矢最大99）
 @export var max_stack_limit: int = 99
-
-## 标签系统：Key是标签名，Value是强度。
-## 例如: {"可食用": 1, "燃料": 10, "工具": 1, "利刃": 2}
+## 标签系统
 @export var action_tags: Array[TagData] = []
-@export var tag_level: int = 1
 
 # --- 目标与产出属性 ---
 @export_group("目标产出 (Target Interactions)")
@@ -63,7 +45,7 @@ enum StackType {
 ## 是否有耐久度/使用次数限制
 @export var has_durability: bool = false
 ## 最大耐久度 (或最大份数，比如一锅饭是3)
-@export var max_durability: int = 100
+@export var max_durability: int = 10
 ## 耗尽后是否消失 (true=消失, false=变损坏状态)
 @export var destroy_on_break: bool = true
 ## (可选) 损坏后变成什么物品

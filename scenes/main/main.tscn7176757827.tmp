@@ -11,12 +11,8 @@
 [ext_resource type="Theme" uid="uid://cx7r8se6ktcyp" path="res://theme/new_theme.tres" id="6_ow5a4"]
 [ext_resource type="Theme" uid="uid://bchkms2m2gs0j" path="res://theme/tag.tres" id="6_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://c8e6e62jo2hl7" path="res://scenes/CardZone.tscn" id="7_hujxm"]
-[ext_resource type="Resource" uid="uid://dthyco7idy203" path="res://data/items/new folder/草编背篓.tres" id="7_hxu8e"]
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
-[ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/player_row_zone.tscn" id="13_th5th"]
-[ext_resource type="PackedScene" uid="uid://ddph8v8mcrxcc" path="res://scenes/ui/components/slot.tscn" id="14_raeie"]
-[ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/ui/EquipSlot.gd" id="15_hxu8e"]
-[ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/components/equip_zone.gd" id="15_raeie"]
+[ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/ui/components/player_row_zone.tscn" id="13_th5th"]
 
 [sub_resource type="GDScript" id="GDScript_hujxm"]
 script/source = "extends PanelContainer
@@ -46,7 +42,6 @@ item_box = ExtResource("3_blune")
 item_i1 = ExtResource("8_yyfjg")
 item_i2 = ExtResource("5_blune")
 item_axe = ExtResource("5_th5th")
-item_i4 = ExtResource("7_hxu8e")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1917557195]
 clip_contents = true
@@ -282,9 +277,11 @@ text = "4"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AreaZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer" unique_id=2071155868 groups=["area_zone"] instance=ExtResource("7_hujxm")]
+[node name="AreaZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer" unique_id=2071155868 instance=ExtResource("7_hujxm")]
 layout_mode = 2
 size_flags_vertical = 1
+zone_type = 1
+test_item = null
 
 [node name="TabContainer" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer" unique_id=443716452]
 visible = false
@@ -303,6 +300,8 @@ current_tab = 0
 
 [node name="GroundZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2" unique_id=820977854 groups=["ground_zone"] instance=ExtResource("7_hujxm")]
 layout_mode = 2
+zone_type = 2
+test_item = null
 
 [node name="TabContainer3" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel" unique_id=45233010]
 layout_mode = 2
@@ -316,36 +315,29 @@ metadata/_tab_index = 0
 [node name="player" type="VBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer" unique_id=851269600]
 layout_mode = 2
 
-[node name="PlayerZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=1315625363 groups=["group_player_zone"] instance=ExtResource("13_th5th")]
+[node name="PlayerZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=1315625363 groups=["player_zone"] instance=ExtResource("13_th5th")]
 layout_mode = 2
+zone_type = 3
 
-[node name="BackpackZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=1191002102 groups=["group_backpack_zone"] instance=ExtResource("13_th5th")]
+[node name="BackpackZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=1191002102 groups=["player_zone"] instance=ExtResource("13_th5th")]
 visible = false
 layout_mode = 2
+zone_type = 3
 
-[node name="SpecialZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=2123964542 instance=ExtResource("13_th5th")]
+[node name="SpecialZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=2123964542 groups=["player_zone"] instance=ExtResource("13_th5th")]
 layout_mode = 2
+zone_type = 3
 
-[node name="EquipZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3" unique_id=339976475 groups=["group_equip_zone"] instance=ExtResource("13_th5th")]
+[node name="EquipZone" type="ScrollContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3" unique_id=1548626792]
 visible = false
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-script = ExtResource("15_raeie")
+size_flags_horizontal = 3
+size_flags_vertical = 4
 metadata/_tab_index = 1
 
-[node name="Slot" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=245949928 instance=ExtResource("14_raeie")]
+[node name="Label2" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=1033883617]
 layout_mode = 2
-script = ExtResource("15_hxu8e")
-equip_requirement = 2
-
-[node name="Slot2" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=399706701 instance=ExtResource("14_raeie")]
-layout_mode = 2
-script = ExtResource("15_hxu8e")
-equip_requirement = 4
-
-[node name="Slot3" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=400226171 instance=ExtResource("14_raeie")]
-layout_mode = 2
-script = ExtResource("15_hxu8e")
-equip_requirement = 3
 
 [node name="Icon" type="TextureRect" parent="." unique_id=1611546233]
 texture_filter = 1

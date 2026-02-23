@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TagData" format=3 uid="uid://dcoqhpt2lq038"]
 
-[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/items/tag_data.gd" id="1_3kp8q"]
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_3kp8q"]
 
 [resource]
 script = ExtResource("1_3kp8q")

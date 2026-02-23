@@ -1,3 +1,4 @@
+#recipe_manager
 extends Node
 # 管理所有合成配方和研究解锁。
 # 加载所有配方数据（从 data/recipes/ 下的 Resource 文件）。

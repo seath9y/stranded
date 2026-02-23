@@ -1,3 +1,4 @@
+#game_manager
 extends Node
 # 游戏全局状态管理,协调其他管理器
 # 记录当前在玩的存档槽位。

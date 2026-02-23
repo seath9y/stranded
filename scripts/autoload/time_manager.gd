@@ -1,3 +1,4 @@
+#time_manager
 extends Node
 # 管理游戏内时间的流逝。
 # 记录当前时间（以分钟为单位）、天数、季节。

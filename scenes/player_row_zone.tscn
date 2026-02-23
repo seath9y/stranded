@@ -1,13 +1,14 @@
-[gd_scene format=3 uid="uid://c8e6e62jo2hl7"]
+[gd_scene format=3 uid="uid://bggmmuel7vsaq"]
 
-[ext_resource type="Script" uid="uid://camivjoavoxbl" path="res://scripts/ui/components/card_zone.gd" id="1_ucsdv"]
+[ext_resource type="Script" uid="uid://camivjoavoxbl" path="res://scripts/ui/components/card_zone.gd" id="1_fqhjq"]
 
-[node name="CardZone" type="ScrollContainer" unique_id=2071155868]
+[node name="PlayerRowZone" type="HBoxContainer" unique_id=1315625363]
 custom_minimum_size = Vector2(0, 60)
+offset_right = 20.0
+offset_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-horizontal_scroll_mode = 0
-script = ExtResource("1_ucsdv")
+script = ExtResource("1_fqhjq")
 metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=886638454]
@@ -19,9 +20,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer" unique_id=1250444253]
+[node name="Container" type="HBoxContainer" parent="MarginContainer" unique_id=1575515006]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10

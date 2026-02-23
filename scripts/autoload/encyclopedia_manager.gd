@@ -1,3 +1,4 @@
+#encyclopedia_manager
 extends Node
 # 管理游戏内的百科知识库。
 # 加载所有百科条目（物品介绍、配方信息等）。

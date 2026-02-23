@@ -1,3 +1,4 @@
+# data_manager
 extends Node
 # 负责所有数据的保存和加载
 # 定义存档文件的存储位置（user://saves/）。

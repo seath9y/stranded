@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://ddph8v8mcrxcc"]
+[gd_scene format=3 uid="uid://bmj1tf0ivqn1o"]
 
-[ext_resource type="Script" uid="uid://cr8nlpnhjx8l5" path="res://scripts/ui/Slot.gd" id="1_urwfp"]
+[ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/ui/EquipSlot.gd" id="1_32su1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6v7k"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -15,22 +15,16 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Slot" type="AspectRatioContainer" unique_id=245949928]
+[node name="EquipSlot" type="AspectRatioContainer" unique_id=245949928]
 custom_minimum_size = Vector2(100, 120)
 offset_right = 100.0
 offset_bottom = 120.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ratio = 0.75
-script = ExtResource("1_urwfp")
+script = ExtResource("1_32su1")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=54232320]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_j6v7k")
-
-[node name="LockOverlay" type="ColorRect" parent="." unique_id=153597334]
-visible = false
-layout_mode = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.31764707)

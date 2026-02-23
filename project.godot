@@ -23,11 +23,10 @@ EventManager="*uid://c0c345a323e2c"
 GameManager="*uid://df5clkwjb0o6y"
 RecipeManager="*uid://cckk6fdtkpk2m"
 TimeManager="*uid://bnmceh0t1t3b5"
-
-[global_group]
-
-ground_zone="地面物品"
-player_zone=""
+EnvironmentManager="*uid://flrxqhl8t6yo"
+TooltipManager="*uid://b313fqjvnxoit"
+PlayerManager="*uid://tin5lwvgv656"
+StatusManager="*uid://d0hjwixd3yd18"
 
 [physics]
 

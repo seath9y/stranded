@@ -64,7 +64,8 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 	if current_card != null:
 		var interacted = _handle_interaction(dropped_card, current_card)
 		if interacted:
-			return 
+			PlayerManager.call_deferred("recalculate_player_stats") # <--- 【新增1】
+			return
 		
 	if dropped_card.data.stack_type != ItemData.StackType.不可堆叠:
 		var grid = self.get_parent()
@@ -73,6 +74,7 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 				if child is Card and child != dropped_card and child.data.id == dropped_card.data.id:
 					var is_fully_stacked = _handle_stacking(child, dropped_card)
 					if is_fully_stacked:
+						PlayerManager.call_deferred("recalculate_player_stats") # <--- 【新增2】
 						return 
 
 	# 放到这一格，把其他物品后移
@@ -81,6 +83,7 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 	
 	# 【补全系统】：卡牌成功移动/放下后，重算环境加成
 	EnvironmentManager.call_deferred("recalculate_environment")
+	PlayerManager.call_deferred("recalculate_player_stats") # <--- 【新增3】
 # --- 修改后的互动判定（纯标签驱动） ---
 func _is_interaction_possible(tool_card: Card, target_card: Card) -> bool:
 	var tool_data = tool_card.data

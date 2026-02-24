@@ -2,7 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://cotlg1do4evx1" path="res://assets/ui/边框.png" id="1_omwow"]
 [ext_resource type="Texture2D" uid="uid://6bwxvvommcne" path="res://assets/ui/精灵-0007.png" id="2_omwow"]
+[ext_resource type="StyleBox" uid="uid://cpnxuc0vdoxtq" path="res://theme/进度条/进度条背景.tres" id="2_tcp2s"]
 [ext_resource type="Texture2D" uid="uid://vdmkvqfak556" path="res://assets/ui/精灵-0008.png" id="3_5mjbd"]
+[ext_resource type="StyleBox" uid="uid://iqmpnmgdt54k" path="res://theme/进度条/黄色进度条.tres" id="3_tcp2s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5mjbd"]
 texture = ExtResource("1_omwow")
@@ -12,35 +14,6 @@ texture_margin_right = 10.0
 texture_margin_bottom = 10.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e31w2"]
-bg_color = Color(0.36078432, 0.2509804, 0.2, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.16862746, 0.11372549, 0.078431375, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
-
-[sub_resource type="Gradient" id="Gradient_omwow"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.5)
-colors = PackedColorArray(0.92941177, 0.7254902, 0.29411766, 1, 0.8352941, 0.5294118, 0.27058825, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5mjbd"]
-gradient = SubResource("Gradient_omwow")
-fill_to = Vector2(0, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n7t2r"]
-texture = SubResource("GradientTexture2D_5mjbd")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcp2s"]
 bg_color = Color(1, 1, 1, 0.3254902)
@@ -101,8 +74,8 @@ corner_radius_bottom_left = 4
 Button/colors/font_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
 Label/colors/font_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_5mjbd")
-ProgressBar/styles/background = SubResource("StyleBoxFlat_e31w2")
-ProgressBar/styles/fill = SubResource("StyleBoxTexture_n7t2r")
+ProgressBar/styles/background = ExtResource("2_tcp2s")
+ProgressBar/styles/fill = ExtResource("3_tcp2s")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_tcp2s")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxTexture_tcp2s")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_e31w2")

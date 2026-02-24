@@ -2,17 +2,23 @@
 extends Node
 
 # --- 新增：向 UI 发送负重更新的信号 ---
-signal weight_changed(current: int, max_cap: int, status: String)
+#signal weight_changed(current: int, max_cap: int, status: String)
+# 【修改 1】：更新信号，现在传一个字典，方便以后无限扩展 UI 需求
+signal weight_changed(weight_data: Dictionary)
 
 var base_player_slots: int = 4
 var current_strength_bonus: int = 0
 
 var current_weight: int = 0
-var max_weight_capacity: int = 2000 # 玩家自身的基础负重 2kg
+var max_weight_capacity: int = 200 #
 
 # --- 独立容器容量追踪 ---
 var backpack_capacity: int = 0
 var special_capacity: int = 0
+var special_weight_ratio: float = 1.0 # 【新增】：追踪当前特殊背包的减重比例
+
+# 【新增】：专门存给 UI 显示用的变量
+var _current_backpack_weight: int = 0
 
 func _ready():
 	call_deferred("recalculate_player_stats")
@@ -31,6 +37,7 @@ func recalculate_player_stats():
 	var special_slots = 0
 	backpack_capacity = 0
 	special_capacity = 0
+	special_weight_ratio = 1.0 # 重置减重比例
 	var has_backpack = false
 	var has_special = false
 	
@@ -41,18 +48,17 @@ func recalculate_player_stats():
 				if child is Card and child.data is EquipmentData:
 					var equip = child.data
 					
-					# A. 主背包判定
 					if equip.equip_requirement == EquipmentData.EquipSlot.背部:
 						has_backpack = true
 						backpack_slots = equip.bonus_slots
 						backpack_capacity = int(equip.bonus_weight_capacity)
 						
-					# B. 特殊背包/挎包判定（这里我假设你用“饰品”部位当挎包，你可以在 EquipmentData 里加一个新枚举比如“腰部”）
 					elif equip.equip_requirement == EquipmentData.EquipSlot.饰品: 
 						has_special = true
 						special_slots = equip.bonus_slots
 						special_capacity = int(equip.bonus_weight_capacity)
-					break # 找到卡牌就跳出当前格子的循环
+						special_weight_ratio = equip.weight_reduction_ratio # 【新增】：获取这件特殊装备的减重率
+					break
 					
 	# 3. 控制对应区域的显隐
 	if backpack_zone: backpack_zone.visible = has_backpack
@@ -74,19 +80,25 @@ func recalculate_player_stats():
 
 # ================= 新版：分离式负重计算 =================
 func _calculate_total_weight(player_zone, backpack_zone, special_zone, equip_zone) -> void:
-	# 1. 直接压在人身上的重量
+	# 1. 直接压在人身上的重量 (手牌区 + 装备区本身重量)
 	var body_weight = _get_zone_weight(player_zone) + _get_zone_weight(equip_zone)
 	
 	# 2. 各个容器内部的真实重量
 	var backpack_weight = _get_zone_weight(backpack_zone) if backpack_zone else 0
-	var special_weight = _get_zone_weight(special_zone) if special_zone else 0
+	var raw_special_weight = _get_zone_weight(special_zone) if special_zone else 0
 	
-	# 3. 计算溢出（核心逻辑：内部重量减去减重容量，最小为0）
+	# 【核心逻辑】：特殊背包重量打折 (并向上取整)
+	var special_weight = ceil(raw_special_weight * special_weight_ratio)
+	
+	# 3. 计算溢出（主背包有溢出，特殊包如果没有容量上限，special_capacity通常填0，所以打折后的重量全算作溢出压在身上）
 	var backpack_overflow = max(0, backpack_weight - backpack_capacity)
 	var special_overflow = max(0, special_weight - special_capacity)
 	
 	# 4. 玩家最终负担的总重量
 	current_weight = body_weight + backpack_overflow + special_overflow
+	
+	# 5. 【新增】：保存主背包当前真实重量，供 UI 读取
+	_current_backpack_weight = backpack_weight
 
 # ================= 新增工具：安全提取任意区域的总重量 =================
 func _get_zone_weight(zone: Node) -> int:
@@ -121,8 +133,15 @@ func _update_weight_status() -> void:
 		StatusManager.remove_status("overweight")
 		StatusManager.remove_status("immobilized")
 		
-	# 广播给 UI 面板
-	emit_signal("weight_changed", current_weight, dynamic_max_weight, current_status)
+	# 【修改】：打包所有 UI 需要的数据，一次性广播！
+	var weight_data = {
+		"total_current": current_weight,
+		"total_max": dynamic_max_weight,
+		"status": current_status,
+		"backpack_current": _current_backpack_weight,
+		"backpack_max": backpack_capacity
+	}
+	emit_signal("weight_changed", weight_data)
 
 # 锁格子函数 _lock_slots_in_grid 保持你原来的不变即可
 # 辅助函数：根据算出的上限，把多余的格子锁死

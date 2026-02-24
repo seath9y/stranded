@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bkwbxjoycek80"]
 
-[ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scenes/main/main.gd" id="1_6q06x"]
+[ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scripts/main.gd" id="1_6q06x"]
 [ext_resource type="Script" uid="uid://degfhh1qod7vp" path="res://scripts/ui/status_list.gd" id="1_hyk8p"]
 [ext_resource type="Resource" uid="uid://cqvsfyhkqjid3" path="res://data/items/new folder/椰树.tres" id="2_ouso4"]
 [ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/Gemini_Generated_Image_q1kmwmq1kmwmq1km.png" id="2_ow5a4"]
@@ -10,13 +10,15 @@
 [ext_resource type="Resource" uid="uid://iqo7fi3t1djr" path="res://data/items/new folder/石斧.tres" id="5_th5th"]
 [ext_resource type="Theme" uid="uid://cx7r8se6ktcyp" path="res://theme/new_theme.tres" id="6_ow5a4"]
 [ext_resource type="Theme" uid="uid://bchkms2m2gs0j" path="res://theme/tag.tres" id="6_yyfjg"]
-[ext_resource type="PackedScene" uid="uid://c8e6e62jo2hl7" path="res://scenes/CardZone.tscn" id="7_hujxm"]
+[ext_resource type="PackedScene" uid="uid://c8e6e62jo2hl7" path="res://scenes/ui/CardZone.tscn" id="7_hujxm"]
 [ext_resource type="Resource" uid="uid://dthyco7idy203" path="res://data/items/new folder/草编背篓.tres" id="7_hxu8e"]
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
-[ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/player_row_zone.tscn" id="13_th5th"]
-[ext_resource type="PackedScene" uid="uid://ddph8v8mcrxcc" path="res://scenes/ui/components/slot.tscn" id="14_raeie"]
-[ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/ui/EquipSlot.gd" id="15_hxu8e"]
-[ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/components/equip_zone.gd" id="15_raeie"]
+[ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/MainUI.gd" id="9_necax"]
+[ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="11_ou6is"]
+[ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/ui/player_row_zone.tscn" id="13_th5th"]
+[ext_resource type="PackedScene" uid="uid://ddph8v8mcrxcc" path="res://scenes/cards/slot.tscn" id="14_raeie"]
+[ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/cards/EquipSlot.gd" id="15_hxu8e"]
+[ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/equip_zone.gd" id="15_raeie"]
 
 [sub_resource type="GDScript" id="GDScript_hujxm"]
 script/source = "extends PanelContainer
@@ -36,6 +38,14 @@ script/source = "extends PanelContainer
 #func _process(delta: float) -> void:
 	#pass
 "
+
+[sub_resource type="Gradient" id="Gradient_ou6is"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.36078432, 0.2509804, 0.2, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_necax"]
+gradient = SubResource("Gradient_ou6is")
+fill_to = Vector2(0, 0)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_hujxm"]
 
@@ -59,7 +69,13 @@ texture = ExtResource("2_ow5a4")
 expand_mode = 2
 stretch_mode = 6
 
-[node name="UI" type="CanvasLayer" parent="." unique_id=1012598903]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1012598903 node_paths=PackedStringArray("total_weight_bar", "total_weight_label", "bottom_weight_panel", "weight_progress_bar", "weight_value_label")]
+script = ExtResource("9_necax")
+total_weight_bar = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/TextureProgressBar")
+total_weight_label = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/TextureProgressBar/Label")
+bottom_weight_panel = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight")
+weight_progress_bar = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar")
+weight_value_label = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar/Label")
 
 [node name="MainUI" type="Control" parent="UI" unique_id=1067795214]
 layout_mode = 3
@@ -179,13 +195,28 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 5
 script = ExtResource("1_hyk8p")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=261899529]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=294523000]
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+value = 80.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_necax")
+texture_progress = ExtResource("11_ou6is")
 
 [node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/TextureProgressBar" unique_id=1753034934]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "11111"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureProgressBar2" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=261899529]
+visible = false
+layout_mode = 2
 
 [node name="HungerItem" type="HBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1495292397]
 layout_mode = 2
@@ -320,11 +351,42 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="BackpackZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=1191002102 groups=["group_backpack_zone"] instance=ExtResource("13_th5th")]
-visible = false
 layout_mode = 2
 
 [node name="SpecialZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=2123964542 instance=ExtResource("13_th5th")]
+visible = false
 layout_mode = 2
+
+[node name="Backpackweight" type="HBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player" unique_id=879389517]
+layout_mode = 2
+size_flags_stretch_ratio = 0.8
+mouse_filter = 0
+
+[node name="TextureRect" type="TextureRect" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight" unique_id=1812328872]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight" unique_id=2076153611]
+layout_mode = 2
+text = "Label"
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight" unique_id=149930697]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+step = 1.0
+value = 80.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar" unique_id=86225045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "80%"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="EquipZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3" unique_id=339976475 groups=["group_equip_zone"] instance=ExtResource("13_th5th")]
 visible = false
@@ -346,9 +408,5 @@ equip_requirement = 4
 layout_mode = 2
 script = ExtResource("15_hxu8e")
 equip_requirement = 3
-
-[node name="Icon" type="TextureRect" parent="." unique_id=1611546233]
-texture_filter = 1
-stretch_mode = 5
 
 [connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control/search" to="." method="_on_button_pressed"]

@@ -7,9 +7,10 @@
 
 [resource]
 script = ExtResource("4_thj45")
-tool_power = 100
 id = "shifu"
 name = "石斧"
+description = "斧子"
+weight = 100
 type = 5
 action_tags = Array[ExtResource("1_thj45")]([ExtResource("2_g2tkk")])
 has_durability = true

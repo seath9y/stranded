@@ -1,7 +1,7 @@
 # ================= res://scripts/ui/equip_zone.gd =================
 extends HBoxContainer # 【修改】：因为咱们把它变成了 HBoxContainer
 
-var item_scene = preload("res://scenes/ui/components/card.tscn")
+var item_scene = preload("res://scenes/cards/card.tscn")
 func _ready():
 	for slot in self.get_children():
 		if slot is EquipSlot:

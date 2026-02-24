@@ -13,4 +13,5 @@ bonus_slots = 6
 id = "t"
 name = "草编"
 description = "背篓"
+weight = 10
 metadata/_custom_type_script = "uid://dmdvyugotwkx6"

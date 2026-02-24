@@ -11,5 +11,6 @@ id = "f1"
 name = "椰子"
 icon = ExtResource("1_yr6eq")
 description = "椰子"
+weight = 10
 stack_type = 1
 metadata/_custom_type_script = "uid://cnhys87edxapu"

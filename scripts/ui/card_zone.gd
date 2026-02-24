@@ -5,9 +5,9 @@ extends Control
 @export var min_rows: int = 2
 
 # 预加载格子的场景
-var slot_scene = preload("res://scenes/ui/components/slot.tscn")
+var slot_scene = preload("res://scenes/cards/slot.tscn")
 # 预加载物品的场景（或者是你的卡牌场景）
-var item_scene = preload("res://scenes/ui/components/card.tscn")
+var item_scene = preload("res://scenes/cards/card.tscn")
 
 # 配置参数
 var current_slot_count = 0

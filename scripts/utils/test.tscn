@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://bdc2i2swv1gvl"]
 
-[ext_resource type="Script" uid="uid://bx16be37wpgtd" path="res://scripts/utils/test.gd" id="1_63cpa"]
+[sub_resource type="GDScript" id="GDScript_v06mp"]
+script/source = "extends Node
+
+func _ready():
+	print(\"GameManager: \", GameManager)
+	print(\"TimeManager: \", TimeManager)
+	print(\"DataManager: \", DataManager)
+	print(\"当前时间: \", TimeManager.get_time_string())
+"
 
 [node name="Test" type="Node" unique_id=1093288914]
-script = ExtResource("1_63cpa")
+script = SubResource("GDScript_v06mp")

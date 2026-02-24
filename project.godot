@@ -28,6 +28,12 @@ TooltipManager="*uid://b313fqjvnxoit"
 PlayerManager="*uid://tin5lwvgv656"
 StatusManager="*uid://d0hjwixd3yd18"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

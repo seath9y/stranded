@@ -48,15 +48,15 @@ func spawn_initial_items():
 	if item_i2:
 		ground_zone.add_item(item_i2)
 		ground_zone.add_item(item_i2)
-		player_zone.add_item(item_i2)
+		ground_zone.add_item(item_i2)
 	if item_i3:
 		ground_zone.add_item(item_i3)
-		player_zone.add_item(item_i3)
+		ground_zone.add_item(item_i3)
 	## 3. 在人物栏生成：1把石斧
 	if item_axe:
-		player_zone.add_item(item_axe)
-		player_zone.add_item(item_axe)
-		player_zone.add_item(item_axe)
+		ground_zone.add_item(item_axe)
+		ground_zone.add_item(item_axe)
+		ground_zone.add_item(item_axe)
 		ground_zone.add_item(item_i4)
 		
 	print("--- 测试物品生成完毕 ---")

@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://by75kwnrnxx1h"]
 
-[ext_resource type="Texture2D" uid="uid://mafinbiovw11" path="res://assets/ui/01.png" id="1_4oaji"]
-[ext_resource type="Script" uid="uid://bv17c7ojxrahq" path="res://scripts/ui/components/item_card.gd" id="2_xoqax"]
+[ext_resource type="Texture2D" uid="uid://mafinbiovw11" path="res://assets/ui/01.png" id="1_0qqw3"]
+[ext_resource type="Script" uid="uid://bv17c7ojxrahq" path="res://scripts/cards/item_card.gd" id="2_jl6rh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g7wlt"]
-texture = ExtResource("1_4oaji")
+texture = ExtResource("1_0qqw3")
 texture_margin_left = 2.0
 texture_margin_top = 2.0
 texture_margin_right = 2.0
@@ -24,7 +24,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_g7wlt")
-script = ExtResource("2_xoqax")
+script = ExtResource("2_jl6rh")
 
 [node name="VBox" type="VBoxContainer" parent="." unique_id=260253892]
 layout_mode = 2

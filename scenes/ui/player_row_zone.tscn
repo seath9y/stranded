@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bggmmuel7vsaq"]
 
-[ext_resource type="Script" uid="uid://camivjoavoxbl" path="res://scripts/ui/components/card_zone.gd" id="1_fqhjq"]
+[ext_resource type="Script" uid="uid://camivjoavoxbl" path="res://scripts/ui/card_zone.gd" id="1_fqhjq"]
 
 [node name="PlayerRowZone" type="HBoxContainer" unique_id=1315625363]
 custom_minimum_size = Vector2(0, 60)

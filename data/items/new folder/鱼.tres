@@ -11,6 +11,7 @@ id = "f2"
 name = "鱼"
 icon = ExtResource("1_rpddq")
 description = "鱼"
+weight = 10
 type = 8
 stack_type = 1
 metadata/_custom_type_script = "uid://cnhys87edxapu"

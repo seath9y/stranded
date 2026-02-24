@@ -22,10 +22,13 @@ enum EquipSlot {
 @export var speed_bonus: float = 0.0
 
 @export_group("背包与负重加成 (Bag Stats)")
-## 装备后（如背篓）为人物提供的额外负重上限
+## 装备后（如背篓）提供的额外负重
 @export var bonus_weight_capacity: float = 0.0
 ## 装备后提供的额外格子数
 @export var bonus_slots: int = 0
+##  --- 特殊背包/挎包属性 ---
+@export var weight_reduction_ratio: float = 1.0 # 减重乘区：1.0表示不减重，0.25表示重量变为25%，0.0表示完全无重量
+@export var allowed_item_tags: Array[TagData] = [] # 限制放入物品的标签
 
 @export_group("被动增益 (Passive Modifiers)")
 ## 只要装备在身上（或放置在家里），就会生效的全局属性

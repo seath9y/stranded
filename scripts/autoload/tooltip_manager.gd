@@ -54,7 +54,7 @@ func show_tooltip(card: Card):
 		
 	# 检查重量 (你之前加的)
 	if "weight" in data and data.weight > 0:
-		stats_text += "重量: %.2f kg\n" % (float(data.weight) / 1000.0)
+		stats_text += "重量: %d\n" % data.weight
 		
 	# 检查修饰器加成 (比如桌椅提供点数)
 	if "passive_modifiers" in data:

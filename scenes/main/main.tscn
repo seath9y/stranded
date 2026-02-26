@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scripts/main.gd" id="1_6q06x"]
 [ext_resource type="Script" uid="uid://degfhh1qod7vp" path="res://scripts/ui/status_list.gd" id="1_hyk8p"]
 [ext_resource type="Resource" uid="uid://cqvsfyhkqjid3" path="res://data/items/new folder/椰树.tres" id="2_ouso4"]
-[ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/Gemini_Generated_Image_q1kmwmq1kmwmq1km.png" id="2_ow5a4"]
+[ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/海滩背景.png" id="2_ow5a4"]
 [ext_resource type="Resource" uid="uid://f7pnopgy6u34" path="res://data/items/new folder/储物箱.tres" id="3_blune"]
 [ext_resource type="Theme" uid="uid://dvfjyd3cexc4r" path="res://theme/pixel_theme.tres" id="3_ow5a4"]
 [ext_resource type="Resource" uid="uid://wcwhx0dl0e1x" path="res://data/items/new folder/鱼.tres" id="5_blune"]
@@ -15,10 +15,17 @@
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
 [ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/MainUI.gd" id="9_necax"]
 [ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="11_ou6is"]
+[ext_resource type="PackedScene" uid="uid://cdnrpug03wdgc" path="res://scenes/ui/top_bar.tscn" id="11_r4lks"]
+[ext_resource type="Texture2D" uid="uid://cdtjrb1rv57bx" path="res://assets/icons/测试用/探索.png" id="12_p8abn"]
+[ext_resource type="Script" uid="uid://i4p1jwyksh2f" path="res://scripts/ui/action_panel.gd" id="12_s17dp"]
+[ext_resource type="Texture2D" uid="uid://el1b6xr2nasd" path="res://assets/icons/测试用/睡觉.png" id="13_s17dp"]
 [ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/ui/player_row_zone.tscn" id="13_th5th"]
+[ext_resource type="Texture2D" uid="uid://c5xfcupswohme" path="res://assets/icons/测试用/研究制作.png" id="14_37hlw"]
 [ext_resource type="PackedScene" uid="uid://ddph8v8mcrxcc" path="res://scenes/cards/slot.tscn" id="14_raeie"]
 [ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/cards/EquipSlot.gd" id="15_hxu8e"]
 [ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/equip_zone.gd" id="15_raeie"]
+[ext_resource type="Texture2D" uid="uid://bw0fnccjrf7ns" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll17.png" id="19_6llfj"]
+[ext_resource type="Texture2D" uid="uid://lt7xcv3f7mm0" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll19.png" id="20_0bhws"]
 
 [sub_resource type="GDScript" id="GDScript_hujxm"]
 script/source = "extends PanelContainer
@@ -86,53 +93,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_ow5a4")
 
-[node name="TopBarMargin" type="PanelContainer" parent="UI/MainUI" unique_id=1392820487]
+[node name="TopBar" parent="UI/MainUI" unique_id=2074190487 instance=ExtResource("11_r4lks")]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 47.0
-grow_horizontal = 2
-
-[node name="TopBarHBox" type="HBoxContainer" parent="UI/MainUI/TopBarMargin" unique_id=1701192445]
-layout_mode = 2
-
-[node name="LeftGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=305174180]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SeasonLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1557779630]
-layout_mode = 2
-text = "Spring"
-
-[node name="DayLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=1615458080]
-layout_mode = 2
-text = "Day 1"
-
-[node name="TimeLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/LeftGroup" unique_id=61512175]
-layout_mode = 2
-text = "06:00"
-
-[node name="CenterGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=762919774]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="LocationLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=1127296888]
-layout_mode = 2
-text = "Beach"
-
-[node name="WeatherLabel" type="Label" parent="UI/MainUI/TopBarMargin/TopBarHBox/CenterGroup" unique_id=927686123]
-layout_mode = 2
-text = "Sunny 25°C"
-
-[node name="RightGroup" type="HBoxContainer" parent="UI/MainUI/TopBarMargin/TopBarHBox" unique_id=1252785398]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="SettingsBtn" type="Button" parent="UI/MainUI/TopBarMargin/TopBarHBox/RightGroup" unique_id=704035928]
-layout_mode = 2
-text = "Settings"
+offset_bottom = 42.0
 
 [node name="MainHBox" type="HBoxContainer" parent="UI/MainUI" unique_id=1198053803]
 layout_mode = 1
@@ -140,7 +103,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = 54.0
+offset_top = 80.0
 offset_right = -12.0
 offset_bottom = -3.0
 grow_horizontal = 2
@@ -151,33 +114,54 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 
-[node name="ActionButtons" type="PanelContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=1855963432]
+[node name="ActionPanel" type="PanelContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=1855963432 node_paths=PackedStringArray("crafting_panel")]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
+script = ExtResource("12_s17dp")
+crafting_panel = NodePath("../../../../Panel")
 
-[node name="Control" type="Control" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons" unique_id=1629725497]
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel" unique_id=1336047050]
 layout_mode = 2
 
-[node name="search" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control" unique_id=1884492762]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 0
-offset_left = 1.0
-offset_top = 4.0
-offset_right = 132.0
-offset_bottom = 55.0
-text = "探索"
-flat = true
+[node name="ActionList" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer" unique_id=198795377]
+layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Button2" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control" unique_id=1973209153]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 0
-offset_left = 10.0
-offset_top = 53.0
-offset_right = 126.0
-offset_bottom = 114.0
-text = "加物品测试"
+[node name="ExploreButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1352505551]
+layout_mode = 2
+text = "探索"
+icon = ExtResource("12_p8abn")
 flat = true
+expand_icon = true
+
+[node name="MoveButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=277080885]
+layout_mode = 2
+text = "移动"
+icon = ExtResource("12_p8abn")
+flat = true
+expand_icon = true
+
+[node name="SleepButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=101344923]
+layout_mode = 2
+text = "睡觉"
+icon = ExtResource("13_s17dp")
+flat = true
+expand_icon = true
+
+[node name="RestButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1898289825]
+layout_mode = 2
+text = "休息"
+icon = ExtResource("14_37hlw")
+flat = true
+expand_icon = true
+
+[node name="CraftButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1343180914]
+layout_mode = 2
+text = "研究制作"
+icon = ExtResource("14_37hlw")
+flat = true
+expand_icon = true
 
 [node name="StatusContainer" type="PanelContainer" parent="UI/MainUI/MainHBox/LeftPanel" unique_id=775180314]
 layout_mode = 2
@@ -295,13 +279,13 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-text = "2"
+icon = ExtResource("19_6llfj")
 
 [node name="Button3" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/TabsBar" unique_id=367816864]
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-text = "3"
+icon = ExtResource("20_0bhws")
 
 [node name="Button4" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/TabsBar" unique_id=1741676527]
 layout_mode = 2
@@ -409,4 +393,17 @@ layout_mode = 2
 script = ExtResource("15_hxu8e")
 equip_requirement = 3
 
-[connection signal="pressed" from="UI/MainUI/MainHBox/LeftPanel/ActionButtons/Control/search" to="." method="_on_button_pressed"]
+[node name="Panel" type="Panel" parent="UI" unique_id=680204202]
+visible = false
+z_index = 10
+anchors_preset = -1
+offset_left = 207.0
+offset_top = 79.0
+offset_right = 1177.0
+offset_bottom = 667.0
+
+[node name="Label" type="Label" parent="UI/Panel" unique_id=2002186779]
+layout_mode = 1
+offset_right = 192.0
+offset_bottom = 23.0
+text = "这里是未来的研究制作手册"

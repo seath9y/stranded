@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://wcwhx0dl0e1x"]
 
-[ext_resource type="Texture2D" uid="uid://ym3cf0ir872p" path="res://assets/icons/1/1-export22.png" id="1_rpddq"]
+[ext_resource type="Texture2D" uid="uid://ym3cf0ir872p" path="res://assets/icons/测试用/1/1-export22.png" id="1_rpddq"]
 [ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/data/tool/interaction_rule.gd" id="3_4eyid"]
 [ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="3_kqk5y"]
 [ext_resource type="Script" uid="uid://ce4ln8iumxn4d" path="res://scripts/data/item/FoodData.gd" id="4_4eyid"]

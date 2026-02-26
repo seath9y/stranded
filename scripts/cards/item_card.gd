@@ -156,7 +156,7 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	# 3. 制作拖拽时的半透明“预览图” (Preview)
 	var preview_control = Control.new()
 	# ⚠️ 这里的路径请替换为你实际的 Card.tscn 的路径！
-	var preview_card = load("res://scenes/ui/components/card.tscn").instantiate() 
+	var preview_card = load("res://scenes/cards/card.tscn").instantiate() 
 	preview_control.add_child(preview_card)
 	
 	# 把当前卡牌的数据复制给预览图

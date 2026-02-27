@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://k2p10ihyiyp6"]
+
+[ext_resource type="Script" uid="uid://m5a7h0h80v14" path="res://scripts/ui/stat_widget.gd" id="1_5pme8"]
+
+[node name="StatWidget" type="HBoxContainer" unique_id=1083383730]
+size_flags_stretch_ratio = 0.8
+mouse_filter = 0
+script = ExtResource("1_5pme8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2077324635]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=2038389443]
+layout_mode = 2
+text = "Label"
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=929276442]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+step = 1.0
+value = 80.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="ProgressBar" unique_id=1644904468]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "80%"
+horizontal_alignment = 2
+vertical_alignment = 1

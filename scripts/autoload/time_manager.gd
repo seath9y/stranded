@@ -18,20 +18,30 @@ var current_season: String = "spring"
 
 # type类型,分m,时h
 func advance_time(time: float, type: String = "m"):
+	var actual_minutes_passed: int = 0 # 【新增】：用来记录本次到底流逝了多少分钟
+	
 	if type == "m":
 		current_time += time
+		actual_minutes_passed = int(time) # 记录分钟
 	elif type == "h":
 		current_time += time * 60
+		actual_minutes_passed = int(time * 60) # 小时转换为分钟记录
 	else:
 		print("时间错误")
-		pass
+		return # 【优化】：如果传错了参数，直接退出函数，不要往下执行了
+		
 	var day_changed = false
 	while current_time >= 1440:
 		current_time -= 1440
 		current_day += 1
 		day_changed = true
 		# 这里可以添加季节变化检查
+		
 	emit_signal("time_advanced", current_time, current_day, current_season)
+	
+	# 【核心接线】：使用算出来的真实流逝分钟数，驱动生理引擎！
+	SurvivalManager.process_metabolism(actual_minutes_passed)
+	
 
 func get_time_string() -> String:
 	var hours = int(current_time / 60)

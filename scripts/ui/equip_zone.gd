@@ -30,7 +30,7 @@ func add_item(item_data: ItemData, amount: int = 1, state: Dictionary = {}) -> i
 					
 				slot.add_child(new_item)
 				
-				PlayerManager.call_deferred("recalculate_player_stats")
+				InventoryManager.call_deferred("recalculate_player_stats")
 				print("✅ 成功快捷装备：", item_data.name)
 				return 0 
 				

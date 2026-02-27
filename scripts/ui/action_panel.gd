@@ -29,7 +29,8 @@ func _ready() -> void:
 
 # === 基础按钮交互 ===
 func _on_explore_pressed() -> void:
-	print("【探索】按钮被点击：准备打开大地图！")
+	TimeManager.advance_time(30)
+	print("【探索】按钮被点击")
 
 func _on_rest_pressed() -> void:
 	print("【休息】按钮被点击：原地休息，消耗时间恢复体力！")

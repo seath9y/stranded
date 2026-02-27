@@ -25,8 +25,9 @@ RecipeManager="*uid://cckk6fdtkpk2m"
 TimeManager="*uid://bnmceh0t1t3b5"
 EnvironmentManager="*uid://flrxqhl8t6yo"
 TooltipManager="*uid://b313fqjvnxoit"
-PlayerManager="*uid://tin5lwvgv656"
 StatusManager="*uid://d0hjwixd3yd18"
+InventoryManager="*uid://tin5lwvgv656"
+SurvivalManager="*uid://cy43s1k54gvlg"
 
 [display]
 

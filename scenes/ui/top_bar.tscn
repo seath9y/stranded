@@ -25,20 +25,42 @@ layout_mode = 2
 [node name="LeftWing" type="HBoxContainer" parent="MarginContainer/MainLayout" unique_id=1195684936]
 layout_mode = 2
 
-[node name="SeasonIcon" type="TextureRect" parent="MarginContainer/MainLayout/LeftWing" unique_id=1245253985]
+[node name="DateIcon" type="TextureRect" parent="MarginContainer/MainLayout/LeftWing" unique_id=978433327]
 texture_filter = 1
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-texture = ExtResource("1_5315t")
+texture = ExtResource("3_kesql")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="WeatherIcon" type="TextureRect" parent="MarginContainer/MainLayout/LeftWing" unique_id=466893669]
-custom_minimum_size = Vector2(32, 32)
+[node name="DateLabel" type="Label" parent="MarginContainer/MainLayout/LeftWing" unique_id=429305173]
 layout_mode = 2
-texture = ExtResource("2_kef68")
+text = "Day 14"
+
+[node name="TimeIcon" type="TextureRect" parent="MarginContainer/MainLayout/LeftWing" unique_id=1271473475]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("4_hg2b3")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/MainLayout/LeftWing" unique_id=1795541556]
+layout_mode = 2
+text = "10:00"
+
+[node name="LocationIcon" type="TextureRect" parent="MarginContainer/MainLayout/LeftWing" unique_id=1871702388]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("5_7yihk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LocationLabel" type="Label" parent="MarginContainer/MainLayout/LeftWing" unique_id=2142157938]
+layout_mode = 2
+mouse_filter = 1
+text = "Cherry Shrine"
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/MainLayout" unique_id=1852188344]
 layout_mode = 2
@@ -65,42 +87,20 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="DateIcon" type="TextureRect" parent="MarginContainer/MainLayout/RightWing" unique_id=78294236]
+[node name="SeasonIcon" type="TextureRect" parent="MarginContainer/MainLayout/RightWing" unique_id=769249299]
 texture_filter = 1
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture = ExtResource("3_kesql")
+texture = ExtResource("1_5315t")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="DateLabel" type="Label" parent="MarginContainer/MainLayout/RightWing" unique_id=1511540331]
+[node name="WeatherIcon" type="TextureRect" parent="MarginContainer/MainLayout/RightWing" unique_id=1342448716]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-text = "Day 14"
-
-[node name="TimeIcon" type="TextureRect" parent="MarginContainer/MainLayout/RightWing" unique_id=499712255]
-texture_filter = 1
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-texture = ExtResource("4_hg2b3")
+texture = ExtResource("2_kef68")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TimeLabel" type="Label" parent="MarginContainer/MainLayout/RightWing" unique_id=939828151]
-layout_mode = 2
-text = "10:00"
-
-[node name="LocationIcon" type="TextureRect" parent="MarginContainer/MainLayout/RightWing" unique_id=163841999]
-texture_filter = 1
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-texture = ExtResource("5_7yihk")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="LocationLabel" type="Label" parent="MarginContainer/MainLayout/RightWing" unique_id=1582870569]
-layout_mode = 2
-mouse_filter = 1
-text = "Cherry Shrine"
-
-[node name="SettingButton" type="TextureButton" parent="MarginContainer/MainLayout/RightWing" unique_id=1887649021]
+[node name="SettingButton" type="TextureButton" parent="MarginContainer/MainLayout/RightWing" unique_id=1682751224]
 layout_mode = 2

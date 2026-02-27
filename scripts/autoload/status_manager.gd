@@ -1,21 +1,29 @@
 # res://scripts/autoload/status_manager.gd
 extends Node
 
-# 存储当前活跃的状态效果：{"status_id": {配置数据}}
+signal status_changed(active_status_ids: Array)
 var active_effects: Dictionary = {}
 
-# 状态效果数据库 (预留了扩展性)
+# 状态效果数据库
 const EFFECTS_DATABASE: Dictionary = {
 	"overweight": {
 		"name": "超重",
-		"travel_time_multiplier": 2.0,    # 跨区域时间消耗翻倍
-		"stamina_cost_multiplier": 2.0,   # 耐力消耗翻倍
+		"group": "weight_group", # 【新增】：互斥组标签
+		"description": "负重过高，移动和行动消耗的耐力增加。",
+		"icon": "res://assets/icons/status/overweight.png", 
+		"travel_time_multiplier": 2.0,    
+		"stamina_cost_multiplier": 2.0,   
 	},
 	"immobilized": {
 		"name": "瘫痪",
-		"is_immobilized": true            # 布尔值标记，用于彻底锁死跨区域旅行
+		"group": "weight_group", # 【新增】：同属负重互斥组
+		"description": "极度超载！你现在寸步难行，必须丢弃一些物品。",
+		"icon": "res://assets/icons/status/immobilized.png", 
+		"is_immobilized": true            
 	}
-	# 未来可以在这里无缝添加 "wet" (潮湿)、"injured" (受伤) 等状态
+	# 未来扩展示例：
+	# "wet": { "name": "潮湿", "group": "wet_group" }
+	# "drenched": { "name": "湿透", "group": "wet_group" }
 }
 
 # 【核心功能】：其他系统拉取特定属性的总乘率 (乘法叠加)
@@ -37,8 +45,35 @@ func has_flag(flag_name: String) -> bool:
 
 # 挂载状态
 func add_status(effect_id: String) -> void:
-	if not active_effects.has(effect_id) and EFFECTS_DATABASE.has(effect_id):
-		active_effects[effect_id] = EFFECTS_DATABASE[effect_id]
+	if not EFFECTS_DATABASE.has(effect_id): 
+		return
+		
+	var new_effect = EFFECTS_DATABASE[effect_id]
+	var has_changed = false
+	
+	# 1. 互斥组检查：如果这个新状态有 group，找出并干掉同 group 的其他老状态
+	if new_effect.has("group"):
+		var target_group = new_effect["group"]
+		var keys_to_remove = []
+		
+		for active_id in active_effects:
+			var active_data = active_effects[active_id]
+			# 发现同组的，且不是它自己的状态，标记为待删除
+			if active_data.has("group") and active_data["group"] == target_group and active_id != effect_id:
+				keys_to_remove.append(active_id)
+				
+		# 执行清理
+		for k in keys_to_remove:
+			active_effects.erase(k)
+			has_changed = true
+			
+	# 2. 挂载新状态
+	if not active_effects.has(effect_id):
+		active_effects[effect_id] = new_effect
+		has_changed = true
+		
+	# 3. 只有发生实质性变化时，才通知 UI 刷新，节省性能
+	if has_changed:
 		_update_ui()
 
 # 移除状态
@@ -47,5 +82,4 @@ func remove_status(effect_id: String) -> void:
 		_update_ui()
 
 func _update_ui() -> void:
-	# 这里可以发出信号，通知 UI 层刷新 Debuff 栏位图标
-	print("[StatusManager] 当前状态更新: ", active_effects.keys())
+	emit_signal("status_changed", active_effects.keys())

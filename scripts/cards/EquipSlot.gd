@@ -50,4 +50,4 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 		dropped_parent.zone_manager.reorganize_cards()
 		
 	# 【关键触发】：穿上或换掉装备了！通知大脑重新计算背包上限！
-	PlayerManager.call_deferred("recalculate_player_stats")
+	InventoryManager.call_deferred("recalculate_player_stats")

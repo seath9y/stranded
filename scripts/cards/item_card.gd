@@ -269,8 +269,8 @@ func _handle_right_click_transfer(is_shift_pressed: bool = false):
 				source_zone.reorganize_cards()
 			
 		EnvironmentManager.call_deferred("recalculate_environment")
-		if PlayerManager.has_method("recalculate_player_stats"):
-			PlayerManager.call_deferred("recalculate_player_stats")
+		if InventoryManager.has_method("recalculate_player_stats"):
+			InventoryManager.call_deferred("recalculate_player_stats")
 	else:
 		print("⚠️ 右键传送失败：目标区域已满、不匹配或不可见！")
 # ==========================================

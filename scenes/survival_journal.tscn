@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://h6erf072igre"]
+
+[ext_resource type="Script" uid="uid://bmoq4yjxdbbix" path="res://scripts/stat/status_tab.gd" id="1_jk47a"]
+[ext_resource type="PackedScene" uid="uid://c357r83k1d5lk" path="res://scenes/ui/stat_list_item.tscn" id="2_rybh6"]
+
+[node name="SurvivalJournal" type="Control" unique_id=1960708161]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1752194848]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tabs" type="TabContainer" parent="PanelContainer" unique_id=1746374641]
+layout_mode = 2
+current_tab = 0
+
+[node name="StatusTab" type="VBoxContainer" parent="PanelContainer/Tabs" unique_id=707817177]
+layout_mode = 2
+script = ExtResource("1_jk47a")
+list_item_scene = ExtResource("2_rybh6")
+metadata/_tab_index = 0
+
+[node name="Splitter" type="VSplitContainer" parent="PanelContainer/Tabs/StatusTab" unique_id=1143313731]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TopScroll" type="ScrollContainer" parent="PanelContainer/Tabs/StatusTab/Splitter" unique_id=886757836]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ListContainer" type="VBoxContainer" parent="PanelContainer/Tabs/StatusTab/Splitter/TopScroll" unique_id=1820036604]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BottomScroll" type="ScrollContainer" parent="PanelContainer/Tabs/StatusTab/Splitter" unique_id=332076914]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescLabel" type="RichTextLabel" parent="PanelContainer/Tabs/StatusTab/Splitter/BottomScroll" unique_id=1888297359]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="Control" type="Control" parent="PanelContainer/Tabs" unique_id=121328505]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="CloseButton" type="Button" parent="PanelContainer" unique_id=662153413]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+text = "X"

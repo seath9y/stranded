@@ -8,12 +8,12 @@
 [ext_resource type="Theme" uid="uid://dvfjyd3cexc4r" path="res://theme/pixel_theme.tres" id="3_ow5a4"]
 [ext_resource type="Resource" uid="uid://wcwhx0dl0e1x" path="res://data/items/new folder/鱼.tres" id="5_blune"]
 [ext_resource type="Resource" uid="uid://iqo7fi3t1djr" path="res://data/items/new folder/石斧.tres" id="5_th5th"]
-[ext_resource type="Theme" uid="uid://cx7r8se6ktcyp" path="res://theme/new_theme.tres" id="6_ow5a4"]
 [ext_resource type="Theme" uid="uid://bchkms2m2gs0j" path="res://theme/tag.tres" id="6_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://c8e6e62jo2hl7" path="res://scenes/ui/CardZone.tscn" id="7_hujxm"]
 [ext_resource type="Resource" uid="uid://dthyco7idy203" path="res://data/items/new folder/草编背篓.tres" id="7_hxu8e"]
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
-[ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/MainUI.gd" id="9_necax"]
+[ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/UI.gd" id="9_necax"]
+[ext_resource type="Script" uid="uid://cjlnprodae4ob" path="res://scenes/ui/main_ui.gd" id="11_gkmcc"]
 [ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="11_ou6is"]
 [ext_resource type="PackedScene" uid="uid://cdnrpug03wdgc" path="res://scenes/ui/top_bar.tscn" id="11_r4lks"]
 [ext_resource type="Texture2D" uid="uid://cdtjrb1rv57bx" path="res://assets/icons/测试用/探索.png" id="12_p8abn"]
@@ -25,15 +25,18 @@
 [ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/cards/EquipSlot.gd" id="15_hxu8e"]
 [ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/equip_zone.gd" id="15_raeie"]
 [ext_resource type="PackedScene" uid="uid://k2p10ihyiyp6" path="res://scenes/ui/stat_widget.tscn" id="18_0bhws"]
+[ext_resource type="Texture2D" uid="uid://bjklecny34x6y" path="res://icon.svg" id="18_62atk"]
 [ext_resource type="Texture2D" uid="uid://bw0fnccjrf7ns" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll17.png" id="19_6llfj"]
+[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui/黑边框-2.png" id="19_i7in8"]
 [ext_resource type="Texture2D" uid="uid://lt7xcv3f7mm0" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll19.png" id="20_0bhws"]
+[ext_resource type="PackedScene" uid="uid://h6erf072igre" path="res://scenes/survival_journal.tscn" id="29_i7in8"]
 
-[sub_resource type="Gradient" id="Gradient_ou6is"]
+[sub_resource type="Gradient" id="Gradient_i7in8"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.36078432, 0.2509804, 0.2, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_necax"]
-gradient = SubResource("Gradient_ou6is")
+gradient = SubResource("Gradient_i7in8")
 fill_to = Vector2(0, 0)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_hujxm"]
@@ -60,13 +63,13 @@ stretch_mode = 6
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1012598903 node_paths=PackedStringArray("total_weight_bar", "total_weight_label", "bottom_weight_panel", "weight_progress_bar", "weight_value_label")]
 script = ExtResource("9_necax")
-total_weight_bar = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/weight")
-total_weight_label = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/weight/Label")
+total_weight_bar = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight/TextureProgressBar")
+total_weight_label = NodePath("MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight/TextureProgressBar/Label")
 bottom_weight_panel = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight")
 weight_progress_bar = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar")
 weight_value_label = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar/Label")
 
-[node name="MainUI" type="Control" parent="UI" unique_id=1067795214]
+[node name="MainUI" type="Control" parent="UI" unique_id=1067795214 node_paths=PackedStringArray("journal_panel", "status_area_btn", "close_journal_btn")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,6 +77,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_ow5a4")
+script = ExtResource("11_gkmcc")
+journal_panel = NodePath("SurvivalJournal")
+status_area_btn = NodePath("MainHBox/LeftPanel/StatusContainer/StatusAreaButton")
+close_journal_btn = NodePath("SurvivalJournal/PanelContainer/CloseButton")
 
 [node name="TopBar" parent="UI/MainUI" unique_id=2074190487 instance=ExtResource("11_r4lks")]
 layout_mode = 1
@@ -157,40 +164,67 @@ size_flags_vertical = 3
 [node name="StatusList" type="VBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll" unique_id=1155731568]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 10
 script = ExtResource("1_hyk8p")
 stat_widget_scene = ExtResource("18_0bhws")
 
-[node name="weight" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=294523000]
-custom_minimum_size = Vector2(0, 25)
+[node name="Weight" type="HBoxContainer" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=777878451]
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight" unique_id=1465370413]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+texture = ExtResource("18_62atk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight" unique_id=294523000]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
 value = 80.0
 nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
 texture_under = SubResource("GradientTexture2D_necax")
+texture_over = ExtResource("19_i7in8")
 texture_progress = ExtResource("11_ou6is")
 
-[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/weight" unique_id=1753034934]
+[node name="Label" type="Label" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight/TextureProgressBar" unique_id=1753034934]
+visible = false
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -11.5
+offset_right = -5.0
+offset_bottom = 11.5
+grow_horizontal = 0
 grow_vertical = 2
-text = "11111"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TextureProgressBar2" type="TextureProgressBar" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=261899529]
-visible = false
-layout_mode = 2
-
-[node name="HungerItem" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1083383730 instance=ExtResource("18_0bhws")]
-layout_mode = 2
-current_stat_key = "stomach"
-
-[node name="hydration" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=504249310 instance=ExtResource("18_0bhws")]
+[node name="hydration" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1083383730 instance=ExtResource("18_0bhws")]
 layout_mode = 2
 current_stat_key = "hydration"
+top_color = Color(0.47843137, 0.78431374, 0.83137256, 1)
+bottom_color = Color(0.36862746, 0.60784316, 0.7176471, 1)
+
+[node name="wakefulness" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=504249310 instance=ExtResource("18_0bhws")]
+layout_mode = 2
+current_stat_key = "wakefulness"
+top_color = Color(0.5372549, 0.4862745, 0.8, 1)
+bottom_color = Color(0.39607844, 0.3529412, 0.5803922, 1)
+
+[node name="StatusAreaButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer" unique_id=772678978]
+layout_mode = 2
+focus_mode = 0
+flat = true
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainUI/MainHBox" unique_id=1329253568]
 layout_mode = 2
@@ -278,7 +312,6 @@ size_flags_horizontal = 3
 [node name="PanelContainer2" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow" unique_id=971455147]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("6_ow5a4")
 
 [node name="TabContainer2" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2" unique_id=1801476740]
 layout_mode = 2
@@ -366,6 +399,11 @@ equip_requirement = 4
 layout_mode = 2
 script = ExtResource("15_hxu8e")
 equip_requirement = 3
+
+[node name="SurvivalJournal" parent="UI/MainUI" unique_id=1722609590 instance=ExtResource("29_i7in8")]
+visible = false
+z_index = 10
+layout_mode = 1
 
 [node name="Panel" type="Panel" parent="UI" unique_id=680204202]
 visible = false

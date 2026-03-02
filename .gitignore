@@ -1,3 +1,18 @@
-# Godot 4+ specific ignores
+# --- Godot 4+ 核心忽略 ---
 .godot/
-/android/
+*.tmp
+
+# --- 导出配置（含敏感信息建议忽略） ---
+export_presets.cfg
+
+# --- 导出产物（建议自建 exports 文件夹统一存放） ---
+exports/
+build/
+
+# --- 编辑器与系统配置 ---
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- Aseprite 临时文件（如果有的话） ---
+*.aseprite-backup

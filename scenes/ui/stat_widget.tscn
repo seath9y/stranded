@@ -1,8 +1,22 @@
 [gd_scene format=3 uid="uid://k2p10ihyiyp6"]
 
 [ext_resource type="Script" uid="uid://m5a7h0h80v14" path="res://scripts/ui/stat_widget.gd" id="1_5pme8"]
+[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui/黑边框-2.png" id="2_j1rc2"]
+[ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="3_b5kbc"]
+
+[sub_resource type="Gradient" id="Gradient_ou6is"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.36078432, 0.2509804, 0.2, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_031la"]
+gradient = SubResource("Gradient_ou6is")
+fill_to = Vector2(0, 0)
 
 [node name="StatWidget" type="HBoxContainer" unique_id=1083383730]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 28.0
+grow_horizontal = 2
 size_flags_stretch_ratio = 0.8
 mouse_filter = 0
 script = ExtResource("1_5pme8")
@@ -10,25 +24,46 @@ script = ExtResource("1_5pme8")
 [node name="TextureRect" type="TextureRect" parent="." unique_id=2077324635]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="." unique_id=2038389443]
-layout_mode = 2
-text = "Label"
-
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=929276442]
-custom_minimum_size = Vector2(0, 25)
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1340512642]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
-step = 1.0
 value = 80.0
-show_percentage = false
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = SubResource("GradientTexture2D_031la")
+texture_over = ExtResource("2_j1rc2")
+texture_progress = ExtResource("3_b5kbc")
 
-[node name="Label" type="Label" parent="ProgressBar" unique_id=1644904468]
+[node name="Label" type="Label" parent="TextureProgressBar" unique_id=1268650075]
+visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -11.5
+offset_right = 6.0
+offset_bottom = 11.5
 grow_vertical = 2
-text = "80%"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="TextureProgressBar" unique_id=1393764838]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -11.5
+offset_right = -5.0
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
 horizontal_alignment = 2
 vertical_alignment = 1

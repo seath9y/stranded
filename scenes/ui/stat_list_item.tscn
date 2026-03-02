@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c357r83k1d5lk"]
+
+[ext_resource type="Script" uid="uid://eenfsipfdx31" path="res://scripts/stat/stat_list_item.gd" id="1_m0tt2"]
+[ext_resource type="Theme" uid="uid://c4ip7c3ruu80a" path="res://theme/默认.tres" id="1_yi5vx"]
+[ext_resource type="PackedScene" uid="uid://k2p10ihyiyp6" path="res://scenes/ui/stat_widget.tscn" id="3_lfaqq"]
+
+[node name="StatListItem" type="PanelContainer" unique_id=1631707046]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yi5vx")
+script = ExtResource("1_m0tt2")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1538470631]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=867681224]
+layout_mode = 2
+
+[node name="PinToggle" type="CheckBox" parent="MarginContainer/HBoxContainer" unique_id=509349746]
+layout_mode = 2
+
+[node name="StatWidget" parent="MarginContainer/HBoxContainer" unique_id=1083383730 instance=ExtResource("3_lfaqq")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SelectButton" type="Button" parent="MarginContainer/HBoxContainer" unique_id=1474548909]
+layout_mode = 2

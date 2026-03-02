@@ -15,25 +15,35 @@ var all_stats_info: Dictionary = {
 		"name": "水分",
 		"is_core": true, # 【核心】永远在左下角显示
 		"max_val": 2000.0,
-		"icon": null # 手动摆放的条不需要在这里填，保持 null 即可
+		"icon": null, # 手动摆放的条不需要在这里填，保持 null 即可,
+		"description": "维持生命的核心指标。脱水会导致移动迟缓，最终导致死亡。", # 【新增】
+		"top_color": Color("7ac8d4"), 
+		"bottom_color": Color("5e9bb7"),
 	},
 	"stomach": {
 		"name": "胃容量",
 		"is_core": true, 
 		"max_val": 100.0,
-		"icon": null
+		"icon": null,
+		"top_color": Color("f2b544"), 
+		"bottom_color": Color("d58745"),
+		"description": "能量的终极储备。当胃里没有食物消化时，身体将燃烧体脂供能。可以通过进食高热量食物积累。" # 【新增】
 	},
 	"wakefulness": {
 		"name": "清醒度",
 		"is_core": true, 
 		"max_val": 100.0,
-		"icon": null
+		"icon": null,
+		"top_color": Color("897ccc"),
+		"bottom_color": Color("655a94")
 	},
 	"body_fat": {
 		"name": "体脂储备",
 		"is_core": false, # 【次要】默认隐藏，打勾才显示
 		"max_val": 5000.0,
-		"icon": null
+		"icon": null,
+		"top_color": Color("f2b544"), 
+		"bottom_color": Color("d58745"),
 	}
 }
 

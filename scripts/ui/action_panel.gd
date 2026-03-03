@@ -26,7 +26,8 @@ func _ready() -> void:
 	if crafting_panel:
 		crafting_panel.hide()
 		crafting_panel.modulate.a = 0.0
-
+	StatusManager.status_changed.connect(_on_environment_changed)
+	_update_move_button_state() # 初始化刷一次
 # === 基础按钮交互 ===
 func _on_explore_pressed() -> void:
 	TimeManager.advance_time(30)
@@ -68,3 +69,26 @@ func _on_craft_pressed() -> void:
 		tween.tween_property(crafting_panel, "modulate:a", 0.0, 0.2)
 		# 透明度降完之后，彻底隐藏节点（防止挡住后面的鼠标点击）
 		tween.tween_callback(crafting_panel.hide)
+func _on_environment_changed(_args = null) -> void:
+	_update_move_button_state()
+# 【唯一真理枢纽】：所有关于移动按钮的判定，只能在这里写！
+func _update_move_button_state() -> void:
+	# 1. 最高优先级拦截：瘫痪
+	if StatusManager.has_flag("is_immobilized"):
+		move_btn.disabled = true
+		move_btn.text = "超重无法移动"
+		return
+		
+	# 2. 次级拦截：黑夜无灯 (假设你有这个判定)
+	# if TimeManager.is_night() and not InventoryManager.has_light():
+	#     move_btn.disabled = true
+	#     move_btn.text = "黑夜危险"
+	#     return
+		
+	# 3. 正常状态：计算动态时间消耗
+	move_btn.disabled = false
+	var base_cost = 30
+	var cost_multiplier = StatusManager.get_multiplier("travel_time_multiplier")
+	var final_cost = int(base_cost * cost_multiplier)
+	
+	move_btn.text = "移动 (%d分钟)" % final_cost

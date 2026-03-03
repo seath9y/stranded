@@ -25,10 +25,11 @@
 [ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/cards/EquipSlot.gd" id="15_hxu8e"]
 [ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/equip_zone.gd" id="15_raeie"]
 [ext_resource type="PackedScene" uid="uid://k2p10ihyiyp6" path="res://scenes/ui/stat_widget.tscn" id="18_0bhws"]
-[ext_resource type="Texture2D" uid="uid://bjklecny34x6y" path="res://icon.svg" id="18_62atk"]
 [ext_resource type="Texture2D" uid="uid://bw0fnccjrf7ns" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll17.png" id="19_6llfj"]
+[ext_resource type="Texture2D" uid="uid://btxfiscufhule" path="res://assets/icons/ui/状态/超重.png" id="19_7nlll"]
 [ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui/黑边框-2.png" id="19_i7in8"]
 [ext_resource type="Texture2D" uid="uid://lt7xcv3f7mm0" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll19.png" id="20_0bhws"]
+[ext_resource type="Texture2D" uid="uid://smdhic5m3d75" path="res://assets/icons/ui/口渴.png" id="22_ii537"]
 [ext_resource type="PackedScene" uid="uid://h6erf072igre" path="res://scenes/survival_journal.tscn" id="29_i7in8"]
 
 [sub_resource type="Gradient" id="Gradient_i7in8"]
@@ -69,7 +70,7 @@ bottom_weight_panel = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabCo
 weight_progress_bar = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar")
 weight_value_label = NodePath("MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/Backpackweight/ProgressBar/Label")
 
-[node name="MainUI" type="Control" parent="UI" unique_id=1067795214 node_paths=PackedStringArray("journal_panel", "status_area_btn", "close_journal_btn")]
+[node name="MainUI" type="Control" parent="UI" unique_id=1067795214 node_paths=PackedStringArray("journal_panel", "status_area_btn", "close_journal_btn", "vignette_rect")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,6 +82,7 @@ script = ExtResource("11_gkmcc")
 journal_panel = NodePath("SurvivalJournal")
 status_area_btn = NodePath("MainHBox/LeftPanel/StatusContainer/StatusAreaButton")
 close_journal_btn = NodePath("SurvivalJournal/PanelContainer/CloseButton")
+vignette_rect = NodePath("DangerLayer/VignetteRect")
 
 [node name="TopBar" parent="UI/MainUI" unique_id=2074190487 instance=ExtResource("11_r4lks")]
 layout_mode = 1
@@ -174,7 +176,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList/Weight" unique_id=1465370413]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
-texture = ExtResource("18_62atk")
+texture = ExtResource("19_7nlll")
 expand_mode = 1
 stretch_mode = 5
 
@@ -212,6 +214,7 @@ vertical_alignment = 1
 [node name="hydration" parent="UI/MainUI/MainHBox/LeftPanel/StatusContainer/StatusScroll/StatusList" unique_id=1083383730 instance=ExtResource("18_0bhws")]
 layout_mode = 2
 current_stat_key = "hydration"
+custom_icon = ExtResource("22_ii537")
 top_color = Color(0.47843137, 0.78431374, 0.83137256, 1)
 bottom_color = Color(0.36862746, 0.60784316, 0.7176471, 1)
 
@@ -404,6 +407,20 @@ equip_requirement = 3
 visible = false
 z_index = 10
 layout_mode = 1
+
+[node name="DangerLayer" type="CanvasLayer" parent="UI/MainUI" unique_id=1650797009]
+layer = 128
+
+[node name="VignetteRect" type="ColorRect" parent="UI/MainUI/DangerLayer" unique_id=488775566]
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.6666667, 0, 0, 1)
 
 [node name="Panel" type="Panel" parent="UI" unique_id=680204202]
 visible = false

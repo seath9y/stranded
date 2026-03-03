@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2xkxxopxo2s8"
-path="res://.godot/imported/饥饿.png-8f2ba3226cca2eb5008b1c547cc8d989.ctex"
+uid="uid://bxn1dadj1ld2w"
+path="res://.godot/imported/工具.png-03fce86a4507494fc98dcdf684c0814b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ui/状态/饥饿.png"
-dest_files=["res://.godot/imported/饥饿.png-8f2ba3226cca2eb5008b1c547cc8d989.ctex"]
+source_file="res://assets/icons/工具/工具.png"
+dest_files=["res://.godot/imported/工具.png-03fce86a4507494fc98dcdf684c0814b.ctex"]
 
 [params]
 

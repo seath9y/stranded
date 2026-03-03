@@ -15,16 +15,16 @@ var all_stats_info: Dictionary = {
 		"name": "水分",
 		"is_core": true, # 【核心】永远在左下角显示
 		"max_val": 2000.0,
-		"icon": null, # 手动摆放的条不需要在这里填，保持 null 即可,
+		"icon": "res://assets/icons/ui/口渴.png", # 手动摆放的条不需要在这里填，保持 null 即可,
 		"description": "维持生命的核心指标。脱水会导致移动迟缓，最终导致死亡。", # 【新增】
 		"top_color": Color("7ac8d4"), 
 		"bottom_color": Color("5e9bb7"),
 	},
 	"stomach": {
-		"name": "胃容量",
+		"name": "饥饿",
 		"is_core": true, 
 		"max_val": 100.0,
-		"icon": null,
+		"icon": "res://assets/icons/ui/饥饿.png",
 		"top_color": Color("f2b544"), 
 		"bottom_color": Color("d58745"),
 		"description": "能量的终极储备。当胃里没有食物消化时，身体将燃烧体脂供能。可以通过进食高热量食物积累。" # 【新增】
@@ -147,5 +147,9 @@ func _check_survival_thresholds() -> void:
 		print("💀 玩家因严重脱水而死亡！")
 	elif current_hydration <= 300:
 		StatusManager.add_status("dehydrated") 
+	elif current_hydration <= 500:
+		StatusManager.add_status("thirsty")
+		StatusManager.remove_status("dehydrated") 
 	else:
+		StatusManager.remove_status("thirsty")
 		StatusManager.remove_status("dehydrated")

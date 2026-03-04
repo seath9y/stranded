@@ -25,20 +25,9 @@ func recalculate_environment():
 		var grid = area_zone.slot_container
 		for slot in grid.get_children():
 			for child in slot.get_children():
-				if child is Card and child.data is FurnitureData:
-					_add_modifiers(child.data.passive_modifiers)
+				if child is Card and typeof(child.data) == TYPE_DICTIONARY and not child.data.is_empty():
+					# 只要字典里配了对应的点数就直接累加！没配默认就是加 0
+					current_crafting_points += child.data.get("手工辅助点数", 0)
+					current_cooking_points += child.data.get("烹饪点数", 0)
 					
 	print("环境重算完成！手工辅助点数: ", current_crafting_points, " 烹饪点数: ", current_cooking_points)
-
-# --- 辅助方法：拆解并累加修饰器 ---
-func _add_modifiers(modifiers: Array[ModifierData]):
-	for mod in modifiers:
-		if mod == null: continue
-		
-		match mod.stat_type:
-			ModifierData.StatType.手工辅助等级:
-				current_crafting_points += mod.points
-			ModifierData.StatType.烹饪环境等级:
-				current_cooking_points += mod.points
-			# ModifierData.StatType.防雨等级:
-			# 	current_shelter_points += mod.points

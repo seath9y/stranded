@@ -33,22 +33,41 @@ func _process(delta):
 
 # --- 模式 1：卡牌提示框 (保留你原有的逻辑) ---
 func show_tooltip(card):
-	if card == null or card.data == null: return
+	# 【修正】：增加字典判空
+	if card == null or card.data == null or typeof(card.data) != TYPE_DICTIONARY or card.data.is_empty(): 
+		return
 	
 	current_card = card
 	var data = card.data
 	
-	name_label.text = data.name
-	desc_label.text = data.description
+	# 【修正】：直接读取字典里的中文名称和描述
+	name_label.text = data.get("名称", "未知物品")
+	desc_label.text = data.get("描述", "")
 	
 	var stats_text = ""
-	if "has_durability" in data and data.has_durability:
-		stats_text += "耐久度: %d / %d\n" % [card.current_durability, data.max_durability]
-	if "weight" in data and data.weight > 0:
-		stats_text += "重量: %d\n" % data.weight
-	if "passive_modifiers" in data:
-		for mod in data.passive_modifiers:
-			stats_text += "提供加成: %s +%d\n" % [ModifierData.StatType.keys()[mod.stat_type], mod.points]
+	
+	# 1. 读取耐久度
+	if data.has("最大耐久") and data["最大耐久"] > 0:
+		stats_text += "耐久度: %d / %d\n" % [card.current_durability, data["最大耐久"]]
+		
+	# 2. 读取重量
+	var weight = data.get("重量", 0)
+	if weight > 0:
+		stats_text += "重量: %d\n" % weight
+		
+	# 3. 读取背包加成（取代了以前臃肿的 ModifierData）
+	var extra_weight = data.get("附加负重", 0)
+	if extra_weight > 0:
+		stats_text += "提供负重上限: +%d\n" % extra_weight
+		
+	var extra_slots = data.get("附加槽位", 0)
+	if extra_slots > 0:
+		stats_text += "提供额外储物格: +%d\n" % extra_slots
+		
+	# 4. 读取燃料属性（生存游戏硬核细节显示）
+	var fuel = data.get("燃烧时长", 0.0)
+	if fuel > 0:
+		stats_text += "可燃烧时长: %d 分钟\n" % int(fuel)
 			
 	stats_label.text = stats_text
 	stats_label.visible = stats_text.length() > 0

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://k2p10ihyiyp6"]
 
 [ext_resource type="Script" uid="uid://m5a7h0h80v14" path="res://scripts/ui/stat_widget.gd" id="1_5pme8"]
-[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui/黑边框-2.png" id="2_j1rc2"]
+[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui边框/黑边框-2.png" id="2_j1rc2"]
 [ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="3_b5kbc"]
 
 [sub_resource type="Gradient" id="Gradient_ou6is"]

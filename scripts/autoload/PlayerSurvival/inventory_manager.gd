@@ -44,19 +44,21 @@ func recalculate_player_stats():
 	for slot in equip_zone.get_children():
 		if slot is EquipSlot:
 			for child in slot.get_children():
-				if child is Card and child.data is EquipmentData:
-					var equip = child.data
+				if child is Card and not child.data.is_empty():
+					var equip_data = child.data
+					var tags = equip_data.get("标签", [])
 					
-					if equip.equip_requirement == EquipmentData.EquipSlot.背部:
+					# 【修改】：通过纯文本标签判断！
+					if "背包" in tags:
 						has_backpack = true
-						backpack_slots = equip.bonus_slots
-						backpack_capacity = int(equip.bonus_weight_capacity)
+						backpack_slots = equip_data.get("附加槽位", 0)
+						backpack_capacity = equip_data.get("附加负重", 0)
 						
-					elif equip.equip_requirement == EquipmentData.EquipSlot.饰品: 
+					elif "饰品" in tags: 
 						has_special = true
-						special_slots = equip.bonus_slots
-						special_capacity = int(equip.bonus_weight_capacity)
-						special_weight_ratio = equip.weight_reduction_ratio # 【新增】：获取这件特殊装备的减重率
+						special_slots = equip_data.get("附加槽位", 0)
+						special_capacity = equip_data.get("附加负重", 0)
+						special_weight_ratio = equip_data.get("减重比例", 1.0)
 					break
 					
 	# 3. 控制对应区域的显隐
@@ -110,8 +112,9 @@ func _get_zone_weight(zone: Node) -> int:
 	for slot in container.get_children():
 		if slot is Slot or slot is EquipSlot:
 			for child in slot.get_children():
-				if child is Card and child.data != null:
-					total += child.data.weight * child.current_count
+				if child is Card and not child.data.is_empty():
+					# 【修改】：直接从字典里抓重量
+					total += child.data.get("重量", 0) * child.current_count
 	return total
 
 # ================= 状态更新与 UI 广播 =================

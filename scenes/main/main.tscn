@@ -2,35 +2,33 @@
 
 [ext_resource type="Script" uid="uid://bwtbqabght065" path="res://scripts/main.gd" id="1_6q06x"]
 [ext_resource type="Script" uid="uid://degfhh1qod7vp" path="res://scripts/ui/status_list.gd" id="1_hyk8p"]
-[ext_resource type="Resource" uid="uid://cqvsfyhkqjid3" path="res://data/items/new folder/椰树.tres" id="2_ouso4"]
 [ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/海滩背景.png" id="2_ow5a4"]
-[ext_resource type="Resource" uid="uid://f7pnopgy6u34" path="res://data/items/new folder/储物箱.tres" id="3_blune"]
-[ext_resource type="Resource" uid="uid://wcwhx0dl0e1x" path="res://data/items/new folder/鱼.tres" id="5_blune"]
-[ext_resource type="Resource" uid="uid://iqo7fi3t1djr" path="res://data/items/new folder/石斧.tres" id="5_th5th"]
 [ext_resource type="Theme" uid="uid://bchkms2m2gs0j" path="res://theme/tag.tres" id="6_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://c8e6e62jo2hl7" path="res://scenes/ui/CardZone.tscn" id="7_hujxm"]
-[ext_resource type="Resource" uid="uid://dthyco7idy203" path="res://data/items/new folder/草编背篓.tres" id="7_hxu8e"]
-[ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
 [ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/UI.gd" id="9_necax"]
 [ext_resource type="Theme" uid="uid://j8cuhfeksoa1" path="res://theme/pixel_theme.tres" id="10_7nlll"]
 [ext_resource type="Script" uid="uid://cjlnprodae4ob" path="res://scripts/main_ui.gd" id="11_gkmcc"]
 [ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="11_ou6is"]
 [ext_resource type="PackedScene" uid="uid://cdnrpug03wdgc" path="res://scenes/ui/top_bar.tscn" id="11_r4lks"]
-[ext_resource type="Texture2D" uid="uid://cdtjrb1rv57bx" path="res://assets/icons/测试用/探索.png" id="12_p8abn"]
 [ext_resource type="Script" uid="uid://i4p1jwyksh2f" path="res://scripts/ui/action_panel.gd" id="12_s17dp"]
-[ext_resource type="Texture2D" uid="uid://el1b6xr2nasd" path="res://assets/icons/测试用/睡觉.png" id="13_s17dp"]
 [ext_resource type="PackedScene" uid="uid://bggmmuel7vsaq" path="res://scenes/ui/player_row_zone.tscn" id="13_th5th"]
-[ext_resource type="Texture2D" uid="uid://c5xfcupswohme" path="res://assets/icons/测试用/研究制作.png" id="14_37hlw"]
 [ext_resource type="PackedScene" uid="uid://ddph8v8mcrxcc" path="res://scenes/cards/slot.tscn" id="14_raeie"]
 [ext_resource type="Script" uid="uid://31pgfl1o0lr8" path="res://scripts/cards/EquipSlot.gd" id="15_hxu8e"]
 [ext_resource type="Script" uid="uid://2klg1iamb3k1" path="res://scripts/ui/equip_zone.gd" id="15_raeie"]
 [ext_resource type="PackedScene" uid="uid://k2p10ihyiyp6" path="res://scenes/ui/stat_widget.tscn" id="18_0bhws"]
-[ext_resource type="Texture2D" uid="uid://bw0fnccjrf7ns" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll17.png" id="19_6llfj"]
 [ext_resource type="Texture2D" uid="uid://btxfiscufhule" path="res://assets/icons/ui/状态/超重.png" id="19_7nlll"]
-[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui/黑边框-2.png" id="19_i7in8"]
-[ext_resource type="Texture2D" uid="uid://lt7xcv3f7mm0" path="res://assets/icons/测试用/Gemini_Generated_Image_jll2upjll2upjll19.png" id="20_0bhws"]
+[ext_resource type="Texture2D" uid="uid://4cf5vjefng22" path="res://assets/ui边框/黑边框-2.png" id="19_i7in8"]
 [ext_resource type="Texture2D" uid="uid://smdhic5m3d75" path="res://assets/icons/ui/口渴.png" id="22_ii537"]
 [ext_resource type="PackedScene" uid="uid://h6erf072igre" path="res://scenes/survival_journal.tscn" id="29_i7in8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_p8abn"]
+load_path = "res://.godot/imported/探索.png-c372b1fe50b73d9eac5c7cc20dea93c3.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s17dp"]
+load_path = "res://.godot/imported/睡觉.png-abc1133cb04faaf3f5b248da256c6df3.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_37hlw"]
+load_path = "res://.godot/imported/研究制作.png-cf80ec724c1a8629e7c106ba91e9f53e.ctex"
 
 [sub_resource type="Gradient" id="Gradient_i7in8"]
 offsets = PackedFloat32Array(0)
@@ -42,14 +40,14 @@ fill_to = Vector2(0, 0)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_hujxm"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6llfj"]
+load_path = "res://.godot/imported/Gemini_Generated_Image_jll2upjll2upjll17.png-dfdeef2b452c978db433bccf3e03c0b2.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0bhws"]
+load_path = "res://.godot/imported/Gemini_Generated_Image_jll2upjll2upjll19.png-bbeda2c2b9923dbcb36281060d6ad1fd.ctex"
+
 [node name="Main" type="Node" unique_id=526553538]
 script = ExtResource("1_6q06x")
-item_tree = ExtResource("2_ouso4")
-item_box = ExtResource("3_blune")
-item_i1 = ExtResource("8_yyfjg")
-item_i2 = ExtResource("5_blune")
-item_axe = ExtResource("5_th5th")
-item_i4 = ExtResource("7_hxu8e")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1917557195]
 clip_contents = true
@@ -122,35 +120,35 @@ theme_override_constants/separation = 10
 [node name="ExploreButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1352505551]
 layout_mode = 2
 text = "探索"
-icon = ExtResource("12_p8abn")
+icon = SubResource("CompressedTexture2D_p8abn")
 flat = true
 expand_icon = true
 
 [node name="MoveButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=277080885]
 layout_mode = 2
 text = "移动"
-icon = ExtResource("12_p8abn")
+icon = SubResource("CompressedTexture2D_p8abn")
 flat = true
 expand_icon = true
 
 [node name="SleepButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=101344923]
 layout_mode = 2
 text = "睡觉"
-icon = ExtResource("13_s17dp")
+icon = SubResource("CompressedTexture2D_s17dp")
 flat = true
 expand_icon = true
 
 [node name="RestButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1898289825]
 layout_mode = 2
 text = "休息"
-icon = ExtResource("14_37hlw")
+icon = SubResource("CompressedTexture2D_37hlw")
 flat = true
 expand_icon = true
 
 [node name="CraftButton" type="Button" parent="UI/MainUI/MainHBox/LeftPanel/ActionPanel/MarginContainer/ActionList" unique_id=1343180914]
 layout_mode = 2
 text = "研究制作"
-icon = ExtResource("14_37hlw")
+icon = SubResource("CompressedTexture2D_37hlw")
 flat = true
 expand_icon = true
 
@@ -278,7 +276,7 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-icon = ExtResource("19_6llfj")
+icon = SubResource("CompressedTexture2D_6llfj")
 expand_icon = true
 
 [node name="Button3" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/TabsBar" unique_id=367816864]
@@ -287,7 +285,7 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-icon = ExtResource("20_0bhws")
+icon = SubResource("CompressedTexture2D_0bhws")
 expand_icon = true
 
 [node name="Button4" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/TabsBar" unique_id=1741676527]
@@ -345,7 +343,7 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-icon = ExtResource("19_6llfj")
+icon = SubResource("CompressedTexture2D_6llfj")
 expand_icon = true
 
 [node name="Button3" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=753955272]
@@ -354,7 +352,7 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hujxm")
-icon = ExtResource("20_0bhws")
+icon = SubResource("CompressedTexture2D_0bhws")
 expand_icon = true
 
 [node name="Button4" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=1209580193]
@@ -440,7 +438,7 @@ metadata/_tab_index = 1
 [node name="Slot" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=245949928 instance=ExtResource("14_raeie")]
 layout_mode = 2
 script = ExtResource("15_hxu8e")
-equip_requirement = 2
+equip_requirement = null
 
 [node name="Slot2" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/EquipZone" unique_id=399706701 instance=ExtResource("14_raeie")]
 layout_mode = 2

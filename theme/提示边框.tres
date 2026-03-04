@@ -1,6 +1,6 @@
 [gd_resource type="StyleBoxTexture" format=3 uid="uid://chtmym5b7qodm"]
 
-[ext_resource type="Texture2D" uid="uid://duo250rq8cjqd" path="res://assets/ui/提示边框.png" id="1_ef54t"]
+[ext_resource type="Texture2D" uid="uid://duo250rq8cjqd" path="res://assets/ui边框/提示边框.png" id="1_ef54t"]
 
 [resource]
 content_margin_left = 16.0

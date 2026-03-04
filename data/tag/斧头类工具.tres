@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="TagData" format=3 uid="uid://dcoqhpt2lq038"]
-
-[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_1yxs1"]
-
-[resource]
-script = ExtResource("1_1yxs1")
-tag_name = &"斧头类工具"
-metadata/_custom_type_script = "uid://dxh5ska5gsle"

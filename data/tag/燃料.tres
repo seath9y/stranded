@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TagData" format=3 uid="uid://ct62yop1f3n6k"]
+
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_gnbbr"]
+
+[resource]
+script = ExtResource("1_gnbbr")
+tag_name = &"燃料"
+metadata/_custom_type_script = "uid://dxh5ska5gsle"

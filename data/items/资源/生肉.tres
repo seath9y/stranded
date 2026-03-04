@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cy7ahsedhtciq"]
+
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_p7bdx"]
+[ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/data/tool/interaction_rule.gd" id="2_q07jm"]
+[ext_resource type="Resource" uid="uid://ctd50bqrveyq2" path="res://data/tag/生肉.tres" id="2_rtuf2"]
+[ext_resource type="Script" uid="uid://bfg6isrq876bv" path="res://scripts/data/item/ItemData.gd" id="3_rtuf2"]
+
+[resource]
+script = ExtResource("3_rtuf2")
+id = "raw_meat"
+name = "生肉"
+description = "直接吃大概率会拉肚子，最好烤熟。"
+action_tags = Array[ExtResource("1_p7bdx")]([ExtResource("2_rtuf2")])
+metadata/_custom_type_script = "uid://bfg6isrq876bv"

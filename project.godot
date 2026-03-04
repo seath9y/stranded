@@ -29,6 +29,7 @@ StatusManager="*uid://d0hjwixd3yd18"
 InventoryManager="*uid://tin5lwvgv656"
 SurvivalManager="*uid://cy43s1k54gvlg"
 NotificationManager="*uid://5mvwhq74vb8s"
+FacilityDb="*uid://cjhi5ch5alqq7"
 
 [display]
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c1mg4ulegwatl"]
+
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_fxaa1"]
+[ext_resource type="Resource" uid="uid://dds0tlyfaem0r" path="res://data/tag/石料.tres" id="2_hf5m5"]
+[ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/data/tool/interaction_rule.gd" id="2_pkwov"]
+[ext_resource type="Texture2D" uid="uid://cn288fe7v1wdb" path="res://assets/icons/材料/大石块.png" id="3_6pqbw"]
+[ext_resource type="Script" uid="uid://bfg6isrq876bv" path="res://scripts/data/item/ItemData.gd" id="3_hf5m5"]
+
+[resource]
+script = ExtResource("3_hf5m5")
+id = "big_stone"
+name = "大石块"
+icon = ExtResource("3_6pqbw")
+description = "沉重坚硬的石头，常被用来做地基或隔热圈。"
+action_tags = Array[ExtResource("1_fxaa1")]([ExtResource("2_hf5m5")])
+metadata/_custom_type_script = "uid://bfg6isrq876bv"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bhiapbj0jotm5"]
+
+[ext_resource type="Script" uid="uid://dxh5ska5gsle" path="res://scripts/data/tool/tag_data.gd" id="1_kk82f"]
+[ext_resource type="Resource" uid="uid://ct62yop1f3n6k" path="res://data/tag/燃料.tres" id="2_juva6"]
+[ext_resource type="Script" uid="uid://dg1yeniq35udu" path="res://scripts/data/tool/interaction_rule.gd" id="2_tcyqk"]
+[ext_resource type="Script" uid="uid://bfg6isrq876bv" path="res://scripts/data/item/ItemData.gd" id="3_juva6"]
+
+[resource]
+script = ExtResource("3_juva6")
+id = "Charcoal"
+name = "焦炭"
+description = "烧焦的不可名状物。虽然不能吃，但可以用来画画或做高热燃料。"
+action_tags = Array[ExtResource("1_kk82f")]([ExtResource("2_juva6")])
+fuel_minutes = 120.0
+heat_level = 2.0
+ash_yield = 2.0
+metadata/_custom_type_script = "uid://bfg6isrq876bv"

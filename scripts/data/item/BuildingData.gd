@@ -21,3 +21,5 @@ enum StorageType { 无, 内部中栏, 弹窗UI, 液体容器, 装备包 }
 @export_group("被动增益 (Passive Modifiers)")
 ## 只要装备在身上（或放置在家里），就会生效的全局属性
 @export var passive_modifiers: Array[ModifierData] = []
+
+@export_group("设施与加工 (Facility & Processing)")

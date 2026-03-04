@@ -20,7 +20,7 @@ extends Node
 # --- 2. 获取三个区域的节点引用 ---
 # 注意：这里的路径 $VBoxContainer/RegionZone 需要改成你实际的节点路径！
 @onready var area_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer/AreaZone   # 1栏 地区
-@onready var ground_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2/GroundZone   # 2栏 地点
+@onready var ground_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/PanelContainer/GroundZone   # 2栏 地点
 @onready var player_zone = $UI/MainUI/MainHBox/MarginContainer/RightPanel/TabContainer3/ScrollContainer/player/PlayerZone   # 3栏 人物
 
 

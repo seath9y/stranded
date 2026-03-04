@@ -1,0 +1,14 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://chtmym5b7qodm"]
+
+[ext_resource type="Texture2D" uid="uid://duo250rq8cjqd" path="res://assets/ui/提示边框.png" id="1_ef54t"]
+
+[resource]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+texture = ExtResource("1_ef54t")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0

@@ -1,6 +1,10 @@
 [gd_resource type="Theme" format=3 uid="uid://c4ip7c3ruu80a"]
 
+[sub_resource type="FontVariation" id="FontVariation_5nqc4"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j1rc2"]
 
 [resource]
+Control/fonts/font_color = SubResource("FontVariation_5nqc4")
+Label/colors/font_color = Color(0.17254902, 0.15294118, 0.14117648, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxEmpty_j1rc2")

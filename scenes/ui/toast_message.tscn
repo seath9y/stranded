@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://demvr44ousm5t"]
+
+[ext_resource type="StyleBox" uid="uid://chtmym5b7qodm" path="res://theme/提示边框.tres" id="1_kpmww"]
+[ext_resource type="Script" uid="uid://be2wap1rrihqj" path="res://scripts/ui/toast_message.gd" id="2_ktsie"]
+
+[node name="ToastMessage" type="PanelContainer" unique_id=1906919287]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -61.0
+offset_top = -56.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("1_kpmww")
+script = ExtResource("2_ktsie")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=683807079]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=233714094]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextLabel" type="Label" parent="HBoxContainer" unique_id=535208625]
+layout_mode = 2

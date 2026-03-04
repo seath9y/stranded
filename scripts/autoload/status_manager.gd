@@ -103,7 +103,12 @@ func add_status(effect_id: String) -> void:
 	if not active_effects.has(effect_id):
 		active_effects[effect_id] = new_effect
 		has_changed = true
-		
+		# 【新增】：状态加上去的瞬间，弹个吐司！
+		var icon_tex = load(new_effect.icon) if ResourceLoader.exists(new_effect.icon) else null
+		if new_effect.get("is_emergency", false):
+			NotificationManager.show_toast("极危: " + new_effect.name, icon_tex, NotificationManager.MsgType.DANGER)
+		else:
+			NotificationManager.show_toast("提示: " + new_effect.name, icon_tex, NotificationManager.MsgType.WARNING)
 	# 3. 只有发生实质性变化时，才通知 UI 刷新，节省性能
 	if has_changed:
 		_update_ui()

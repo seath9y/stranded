@@ -5,7 +5,6 @@
 [ext_resource type="Resource" uid="uid://cqvsfyhkqjid3" path="res://data/items/new folder/椰树.tres" id="2_ouso4"]
 [ext_resource type="Texture2D" uid="uid://dq5xcgkeuaipd" path="res://assets/海滩背景.png" id="2_ow5a4"]
 [ext_resource type="Resource" uid="uid://f7pnopgy6u34" path="res://data/items/new folder/储物箱.tres" id="3_blune"]
-[ext_resource type="Theme" uid="uid://dvfjyd3cexc4r" path="res://theme/pixel_theme.tres" id="3_ow5a4"]
 [ext_resource type="Resource" uid="uid://wcwhx0dl0e1x" path="res://data/items/new folder/鱼.tres" id="5_blune"]
 [ext_resource type="Resource" uid="uid://iqo7fi3t1djr" path="res://data/items/new folder/石斧.tres" id="5_th5th"]
 [ext_resource type="Theme" uid="uid://bchkms2m2gs0j" path="res://theme/tag.tres" id="6_yyfjg"]
@@ -13,7 +12,8 @@
 [ext_resource type="Resource" uid="uid://dthyco7idy203" path="res://data/items/new folder/草编背篓.tres" id="7_hxu8e"]
 [ext_resource type="Resource" uid="uid://bnp4f7awf8c7r" path="res://data/items/new folder/椰子.tres" id="8_yyfjg"]
 [ext_resource type="Script" uid="uid://brygwv7onf70o" path="res://scripts/ui/UI.gd" id="9_necax"]
-[ext_resource type="Script" uid="uid://cjlnprodae4ob" path="res://scenes/ui/main_ui.gd" id="11_gkmcc"]
+[ext_resource type="Theme" uid="uid://j8cuhfeksoa1" path="res://theme/pixel_theme.tres" id="10_7nlll"]
+[ext_resource type="Script" uid="uid://cjlnprodae4ob" path="res://scripts/main_ui.gd" id="11_gkmcc"]
 [ext_resource type="Texture2D" uid="uid://pvj0tgau1e4m" path="res://theme/进度条/进度条texture_2d.tres" id="11_ou6is"]
 [ext_resource type="PackedScene" uid="uid://cdnrpug03wdgc" path="res://scenes/ui/top_bar.tscn" id="11_r4lks"]
 [ext_resource type="Texture2D" uid="uid://cdtjrb1rv57bx" path="res://assets/icons/测试用/探索.png" id="12_p8abn"]
@@ -77,7 +77,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_ow5a4")
+theme = ExtResource("10_7nlll")
 script = ExtResource("11_gkmcc")
 journal_panel = NodePath("SurvivalJournal")
 status_area_btn = NodePath("MainHBox/LeftPanel/StatusContainer/StatusAreaButton")
@@ -312,16 +312,65 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer2" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow" unique_id=971455147]
+[node name="PanelContainer3" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow" unique_id=435036358]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TabContainer2" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2" unique_id=1801476740]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3" unique_id=2107884527]
 layout_mode = 2
-size_flags_horizontal = 3
-current_tab = 0
+theme = ExtResource("6_yyfjg")
+theme_override_constants/separation = 0
 
-[node name="GroundZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer2/TabContainer2" unique_id=820977854 groups=["ground_zone"] instance=ExtResource("7_hujxm")]
+[node name="TabsBar" type="HBoxContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer" unique_id=24815403]
+z_index = 1
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Control" type="Control" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=1847798063]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=1322398587]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_hujxm")
+text = "ALL"
+expand_icon = true
+
+[node name="Button2" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=893016767]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_hujxm")
+icon = ExtResource("19_6llfj")
+expand_icon = true
+
+[node name="Button3" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=753955272]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_hujxm")
+icon = ExtResource("20_0bhws")
+expand_icon = true
+
+[node name="Button4" type="Button" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/TabsBar" unique_id=1209580193]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_hujxm")
+text = "4"
+expand_icon = true
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer" unique_id=2050169534]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GroundZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/PanelContainer" unique_id=820977854 groups=["ground_zone"] instance=ExtResource("7_hujxm")]
 layout_mode = 2
 
 [node name="TabContainer3" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel" unique_id=45233010]

@@ -1,21 +1,11 @@
 [gd_scene format=3 uid="uid://h35yaapr75vc"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vn8p1"]
-bg_color = Color(0.039215688, 0.03137255, 0.03137255, 0.30588236)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+[ext_resource type="StyleBox" uid="uid://chtmym5b7qodm" path="res://theme/提示边框.tres" id="1_mtwet"]
 
 [node name="Tooltip" type="PanelContainer" unique_id=283417894]
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_vn8p1")
+theme_override_styles/panel = ExtResource("1_mtwet")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1943451878]
 layout_mode = 2

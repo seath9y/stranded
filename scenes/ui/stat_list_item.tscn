@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c357r83k1d5lk"]
 
 [ext_resource type="Script" uid="uid://eenfsipfdx31" path="res://scripts/stat/stat_list_item.gd" id="1_m0tt2"]
-[ext_resource type="Theme" uid="uid://c4ip7c3ruu80a" path="res://theme/默认.tres" id="1_yi5vx"]
+[ext_resource type="Theme" uid="uid://c4ip7c3ruu80a" path="res://theme/没有木边框.tres" id="1_yi5vx"]
 [ext_resource type="PackedScene" uid="uid://k2p10ihyiyp6" path="res://scenes/ui/stat_widget.tscn" id="3_lfaqq"]
 
 [node name="StatListItem" type="PanelContainer" unique_id=1631707046]

@@ -1,22 +1,13 @@
-[gd_resource type="Theme" format=3 uid="uid://dvfjyd3cexc4r"]
+[gd_resource type="Theme" format=3 uid="uid://j8cuhfeksoa1"]
 
-[ext_resource type="Texture2D" uid="uid://cmpikkjxh1ivf" path="res://assets/ui/精灵6402.png" id="1_tcp2s"]
+[ext_resource type="StyleBox" uid="uid://c2hfiie681pub" path="res://theme/木边框.tres" id="1_tcp2s"]
 [ext_resource type="Texture2D" uid="uid://6bwxvvommcne" path="res://assets/ui/测试用/精灵-0007.png" id="2_omwow"]
 [ext_resource type="StyleBox" uid="uid://cpnxuc0vdoxtq" path="res://theme/进度条/进度条背景.tres" id="2_tcp2s"]
 [ext_resource type="Texture2D" uid="uid://vdmkvqfak556" path="res://assets/ui/测试用/精灵-0008.png" id="3_5mjbd"]
 [ext_resource type="StyleBox" uid="uid://iqmpnmgdt54k" path="res://theme/进度条/黄色进度条.tres" id="3_tcp2s"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5mjbd"]
-texture = ExtResource("1_tcp2s")
-texture_margin_left = 21.0
-texture_margin_top = 21.0
-texture_margin_right = 21.0
-texture_margin_bottom = 21.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcp2s"]
-bg_color = Color(1, 1, 1, 0.3254902)
+bg_color = Color(0.101960786, 0.08627451, 0.078431375, 0.47058824)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -71,11 +62,12 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [resource]
-Button/colors/font_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
-Label/colors/font_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
-PanelContainer/styles/panel = SubResource("StyleBoxTexture_5mjbd")
+Button/colors/font_color = Color(0.17254902, 0.15294118, 0.14117648, 1)
+Label/colors/font_color = Color(0.17254902, 0.15294118, 0.14117648, 1)
+PanelContainer/styles/panel = ExtResource("1_tcp2s")
 ProgressBar/styles/background = ExtResource("2_tcp2s")
 ProgressBar/styles/fill = ExtResource("3_tcp2s")
+RichTextLabel/colors/default_color = Color(0.17254902, 0.15294118, 0.14117648, 1)
 TabContainer/styles/panel = SubResource("StyleBoxFlat_tcp2s")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxTexture_tcp2s")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_e31w2")

@@ -28,12 +28,17 @@ TooltipManager="*uid://b313fqjvnxoit"
 StatusManager="*uid://d0hjwixd3yd18"
 InventoryManager="*uid://tin5lwvgv656"
 SurvivalManager="*uid://cy43s1k54gvlg"
+NotificationManager="*uid://5mvwhq74vb8s"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom="uid://dvfjyd3cexc4r"
 
 [input]
 

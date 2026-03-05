@@ -1,38 +1,53 @@
 extends Node
-# recipe_manager.gd (配置在 Autoload 中)
 
-# 配方数据库
-const RECIPES_DB: Dictionary = {
-	"stone_axe": {
-		"name": "石斧",
-		"icon": "res://assets/icons/工具/石斧.png",
-		"unlocked_by_default": true, # 是否一开始就解锁
-		"time_cost": 15,             # 制作消耗时间 (分钟)
-		"station": "hand",           # 需要的设施 (hand 代表徒手，campfire 代表营火等)
-		# 需要消耗的材料 (分为具体的 item 和 泛用的 tag)
-		"ingredients": [
-			{"type": "item", "id": "大石块", "amount": 1}, 
-			{"type": "item", "id": "长木棍", "amount": 1},
-			{"type": "tag", "id": "rope_like", "amount": 1} # 只要带有 "rope_like" 标签的物品都可以！
-		],
-		# 需要用到的工具 (只扣耐久，不吞物品)
-		"tools_required": [],
-		# 产出物
-		"output": {"id": "石斧", "amount": 1}
+# 全游戏的制作蓝图字典
+const RECIPES: Dictionary = {
+	
+	"石斧_配方": {
+		"id": "stone_axe",
+		"名称": "石斧",
+		"分类": "工具", # 对应 UI 上的 Tab
+		"产物": "石斧",
+		"产出数量": 1,
+		"耗时": 2.0,
+		# 🌟 核心：抽象的 Tag 需求列表
+		"需求": [
+			{"标签": "石料", "数量": 1, "显示名": "任意石块"},
+			{"标签": "木材", "数量": 1, "显示名": "木棍或树枝"},
+			{"标签": "绳索", "数量": 1, "显示名": "任意绳索"}
+		]
 	},
-	"roasted_meat": {
-		"name": "烤肉",
-		"icon": "res://assets/icons/食物/烤肉.png",
-		"unlocked_by_default": false, 
-		"time_cost": 30,             
-		"station": "campfire",       # 必须在营火旁制作！
-		"ingredients": [
-			{"type": "tag", "id": "raw_meat", "amount": 1} # 任何生肉都可以
-		],
-		"tools_required": [
-			# 比如切肉需要刀具，扣除 2 点耐久
-			# {"tag": "sharp_tool", "durability_cost": 2} 
-		],
-		"output": {"id": "烤肉", "amount": 1}
+	
+	"草编背篓_配方": {
+		"id": "woven_basket",
+		"名称": "草编背篓",
+		"分类": "工具",
+		"产物": "草编背篓",
+		"产出数量": 1,
+		"耗时": 5.0,
+		"需求": [
+			{"标签": "叶", "数量": 2, "显示名": "大片树叶"},
+			{"标签": "绳索", "数量": 3, "显示名": "坚韧藤蔓"}
+		]
+	},
+	
+	"储物箱_配方": {
+		"id": "storage_box",
+		"名称": "储物箱",
+		"分类": "建筑",
+		"产物": "储物箱",
+		"产出数量": 1,
+		"耗时": 10.0,
+		"需求": [
+			{"标签": "木材", "数量": 5, "显示名": "粗壮木材"}
+		]
 	}
 }
+
+# --- 辅助查询方法 ---
+func get_recipes_by_category(category_name: String) -> Array:
+	var result = []
+	for key in RECIPES:
+		if RECIPES[key].get("分类", "") == category_name:
+			result.append(RECIPES[key])
+	return result

@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://h4w68k1hkgab"]
 
+[ext_resource type="Script" uid="uid://bk8qi387qoe25" path="res://scripts/crafting_panel.gd" id="1_lar0k"]
+
 [node name="CraftingPanel" type="Control" unique_id=1551504235]
 layout_mode = 3
 anchors_preset = 15
@@ -7,7 +9,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
+script = ExtResource("1_lar0k")
 
 [node name="LeftListPanel" type="PanelContainer" parent="." unique_id=1631723271]
 layout_mode = 1
@@ -36,8 +39,9 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CloseButton" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=1834312218]
+[node name="CloseBtn" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=1834312218]
 layout_mode = 2
+text = "X"
 
 [node name="HSeparator" type="HSeparator" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=1223911406]
 layout_mode = 2
@@ -84,6 +88,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="HeaderHBox" type="HBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=717099094]
+visible = false
 layout_mode = 2
 
 [node name="Spacer" type="Control" parent="RightDetailPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=2094772256]

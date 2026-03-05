@@ -19,7 +19,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer" unique_id=1250444253]
+[node name="GridContainer" type="HFlowContainer" parent="MarginContainer" unique_id=1449837757]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

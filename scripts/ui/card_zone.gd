@@ -10,8 +10,6 @@ var item_scene = preload("res://scenes/cards/card.tscn")
 var current_slot_count = 0
 
 func _ready():
-	if slot_container is GridContainer:
-		slot_container.columns = self.columns
 	create_slots(columns * min_rows)
 
 func create_slots(count: int):

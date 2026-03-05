@@ -22,7 +22,23 @@ func _ready():
 	add_child(hover_timer)
 	self.mouse_entered.connect(_on_mouse_entered)
 	self.mouse_exited.connect(_on_mouse_exited)
+	get_tree().get_root().size_changed.connect(_update_responsive_size)
+	_update_responsive_size()
 
+func _update_responsive_size():
+	var screen_width = get_viewport().size.x
+	# 基础宽度的算法和 Slot 一模一样，确保完美贴合！
+	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
+	
+	# 扣除 4 像素的边缘，这样放在 Slot 里刚好有一圈呼吸感
+	var target_size = Vector2(base_width, base_width * 1.2) - Vector2(4, 4)
+	
+	self.custom_minimum_size = target_size
+	self.size = target_size
+	
+	# 通知内部的图片、耐久度条重新排版
+	if has_method("update_display"):
+		update_display()
 func _on_mouse_entered(): hover_timer.start()
 func _on_mouse_exited(): 
 	hover_timer.stop()

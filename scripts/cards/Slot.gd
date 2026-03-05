@@ -5,7 +5,19 @@ class_name Slot
 
 var zone_manager: Node 
 var is_locked: bool = false
-
+func _ready():
+	# ... 你原有的其他初始化代码 ...
+	
+	# 🌟 新增：让槽位自己监听屏幕变化并立刻执行一次
+	get_tree().get_root().size_changed.connect(_update_responsive_size)
+	_update_responsive_size()
+func _update_responsive_size():
+	var screen_width = get_viewport().size.x
+	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
+	var target_size = Vector2(base_width, base_width * 1.2)
+	
+	self.custom_minimum_size = target_size
+	self.size = target_size
 func set_locked(locked: bool):
 	is_locked = locked
 	if lock_overlay:

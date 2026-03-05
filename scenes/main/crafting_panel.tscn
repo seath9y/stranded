@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://h4w68k1hkgab"]
+
+[node name="CraftingPanel" type="Control" unique_id=1551504235]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="LeftListPanel" type="PanelContainer" parent="." unique_id=1631723271]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.08
+anchor_right = 0.22
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="LeftListPanel" unique_id=1402903126]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftListPanel/MarginContainer" unique_id=150360392]
+layout_mode = 2
+
+[node name="HeaderHBox" type="HBoxContainer" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=1895024794]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="LeftListPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=807968302]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="LeftListPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=1653480559]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=1834312218]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=1223911406]
+layout_mode = 2
+
+[node name="CategoryTabs" type="HBoxContainer" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=1910496676]
+layout_mode = 2
+
+[node name="TabTool" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/CategoryTabs" unique_id=1446400161]
+layout_mode = 2
+
+[node name="TabMaterial" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/CategoryTabs" unique_id=582609140]
+layout_mode = 2
+
+[node name="TabFacility" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/CategoryTabs" unique_id=1233040894]
+layout_mode = 2
+
+[node name="TabFood" type="Button" parent="LeftListPanel/MarginContainer/VBoxContainer/CategoryTabs" unique_id=704512112]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=805558084]
+layout_mode = 2
+
+[node name="RecipeListScroll" type="ScrollContainer" parent="LeftListPanel/MarginContainer/VBoxContainer" unique_id=501667884]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RecipeList" type="VBoxContainer" parent="LeftListPanel/MarginContainer/VBoxContainer/RecipeListScroll" unique_id=1526062544]
+layout_mode = 2
+
+[node name="RightDetailPanel" type="PanelContainer" parent="." unique_id=454697607]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22
+anchor_top = 0.08
+anchor_right = 0.6
+anchor_bottom = 0.6
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="RightDetailPanel" unique_id=1755378089]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightDetailPanel/MarginContainer" unique_id=1954221568]
+layout_mode = 2
+
+[node name="HeaderHBox" type="HBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=717099094]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="RightDetailPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=2094772256]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/HeaderHBox" unique_id=595384671]
+layout_mode = 2
+text = "X"
+
+[node name="InfoHBox" type="HBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=2055977213]
+layout_mode = 2
+
+[node name="ItemIcon" type="TextureRect" parent="RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox" unique_id=507994553]
+layout_mode = 2
+
+[node name="TextVBox" type="VBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox" unique_id=1152915211]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ItemName" type="Label" parent="RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox/TextVBox" unique_id=381150257]
+layout_mode = 2
+
+[node name="ItemDesc" type="RichTextLabel" parent="RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox/TextVBox" unique_id=420967702]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=705947662]
+layout_mode = 2
+
+[node name="RequirementSlots" type="VBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=1094177270]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=1843601652]
+layout_mode = 2
+
+[node name="ActionHBox" type="HBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=1135084588]
+layout_mode = 2
+
+[node name="AutoFillBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1481225986]
+layout_mode = 2
+
+[node name="ClearBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1284677294]
+layout_mode = 2
+
+[node name="CraftBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1132356838]
+layout_mode = 2

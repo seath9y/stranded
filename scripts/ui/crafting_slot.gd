@@ -97,11 +97,20 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 	var needed = req_amount - get_current_amount()
 	var transfer = min(card.stacked_states.size(), needed)
 
+	# 🌟 新增：记住卡牌老家的引用
+	var old_parent = card.get_parent()
+	var source_zone = null
+	if old_parent and "zone_manager" in old_parent:
+		source_zone = old_parent.zone_manager
+
 	# 如果卡牌数量刚刚好，或者我们全吞了
 	if transfer == card.stacked_states.size():
-		var p = card.get_parent()
-		if p: p.remove_child(card)
+		if old_parent: old_parent.remove_child(card)
 		card_container.add_child(card)
+		
+		# 🌟 新增：勒令老家重新整理队列！
+		if source_zone and source_zone.has_method("reorganize_cards"):
+			source_zone.reorganize_cards()
 	else:
 		# 如果卡牌太多了，精准撕下上面几张的状态！
 		var transfer_states: Array[Dictionary] = []
@@ -111,7 +120,6 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 		
 		var new_card = load("res://scenes/cards/card.tscn").instantiate()
 		new_card.set_data(card.data, transfer)
-		# 【核心修改】把撕下来的状态数组原封不动地塞给新卡牌
 		new_card.stacked_states = transfer_states 
 		card_container.add_child(new_card)
 

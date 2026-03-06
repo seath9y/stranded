@@ -21,23 +21,24 @@ func create_slots(count: int):
 		slot_container.add_child(new_slot)
 		current_slot_count += 1
 
-# 【核心修复 1】：参数类型改成 Dictionary！
+# 【核心修复】：完美支持字典状态的透传与克隆
 func add_item(item_data: Dictionary, amount: int = 1, state: Dictionary = {}) -> int:
 	var leftover = amount
 	
-	# 【核心修复 2】：纯字典判断最大堆叠数
+	# 1. 寻找同类并堆叠
 	if item_data.get("最大堆叠", 99) > 1:
 		for slot in slot_container.get_children():
 			if slot is Slot and slot.is_locked:
 				continue 
 				
 			for child in slot.get_children():
-				# 【核心修复 3】：纯字典比对 ID
 				if child is Card and child.data.get("id") == item_data.get("id"):
-					leftover = child.add_count(leftover) 
+					# 🌟 核心修复：把外来状态 (state) 直接传进数组，不再生成默认满状态！
+					leftover = child.add_count(leftover, state) 
 					if leftover <= 0:
 						return 0 
 
+	# 2. 如果没叠完，找空位生成新卡牌
 	if leftover > 0:
 		var empty_valid_slots = 0
 		for slot in slot_container.get_children():
@@ -50,19 +51,18 @@ func add_item(item_data: Dictionary, amount: int = 1, state: Dictionary = {}) ->
 				if not has_card:
 					empty_valid_slots += 1
 					
-		if empty_valid_slots > 0 or auto_expand:
+		if empty_valid_slots > 0:
 			var new_item = item_scene.instantiate()
-			new_item.set_data(item_data, leftover)
-			
-			if not state.is_empty():
-				new_item.apply_dynamic_state(state)
-			
-			# 这里会调用你写好的极其完美的重排机制，它发现格子不够会自动造新格子！	
+			# 🌟 核心修复：抛弃不稳定的 apply_dynamic_state
+			# 先生成一个0数量的空壳，然后用 add_count 把带状态的数据精准砸进去！
+			new_item.set_data(item_data, 0)
+			new_item.add_count(leftover, state)
+				
 			reorganize_cards(new_item, 9999)
 			return 0 
 		else:
 			print("❌ 目标区域已满或被锁定，拒绝放入！")
-			return leftover
+			return leftover 
 			
 	return leftover
 	

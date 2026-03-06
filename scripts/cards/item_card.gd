@@ -6,7 +6,7 @@ var data: Dictionary = {}
 # 存储该卡牌叠放的每一个实体的独立状态（如 {"durability": 8}, {"durability": 10}）
 # 索引 0 永远是最上面的一张！
 var stacked_states: Array[Dictionary] = []
-
+var is_drag_preview: bool = false
 var hover_timer: Timer
 
 @onready var icon_rect: TextureRect = $VBox/ContentMargin/Overlay/Icon
@@ -28,6 +28,9 @@ func _ready():
 	_update_responsive_size()
 
 func _update_responsive_size():
+	# 🌟 核心拦截：如果是拖拽预览卡牌，禁止引擎重算尺寸！
+	if is_drag_preview: return 
+	
 	var screen_width = get_viewport().size.x
 	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
 	var target_size = Vector2(base_width, base_width * 1.2) - Vector2(4, 4)
@@ -54,8 +57,10 @@ func set_data(new_data: Dictionary, amount: int = 1):
 	stacked_states.clear()
 	for i in range(amount):
 		var base_state = {}
-		if data.has("最大耐久") and data["最大耐久"] > 0:
-			base_state["durability"] = data["最大耐久"]
+		
+		base_state["durability"] = 1
+		#if data.has("最大耐久") and data["最大耐久"] > 0:
+			#base_state["durability"] = data["最大耐久"]
 		stacked_states.append(base_state)
 			
 	if not is_node_ready(): await ready
@@ -101,18 +106,40 @@ func _update_status_indicators():
 		label.add_theme_color_override("font_outline_color", Color.BLACK)
 		label.add_theme_constant_override("outline_size", 4)
 		status_container.add_child(label)
-
-# 兼容外部简单的数量累加（可能丢失精度，但为了不引发报错保留）
-func add_count(amount: int) -> int:
+	if data.has("最大新鲜度") and data["最大新鲜度"] > 0:
+		var cur_fresh = top_state.get("freshness", data["最大新鲜度"])
+		var pct = (float(cur_fresh) / float(data["最大新鲜度"])) * 100.0
+		pct = clamp(pct, 0.0, 100.0) 
+		# 越不新鲜越红
+		var color = Color.RED if pct <= 30.0 else Color.GREEN
+		
+		var label = Label.new()
+		label.text = "🥩 %d%%" % int(pct)
+		label.add_theme_color_override("font_color", color)
+		label.add_theme_font_size_override("font_size", 12) 
+		label.add_theme_color_override("font_outline_color", Color.BLACK)
+		label.add_theme_constant_override("outline_size", 4)
+		status_container.add_child(label)
+# 🌟 重构：允许在增加数量时，直接注入特定的状态字典
+func add_count(amount: int, state: Dictionary = {}) -> int:
 	var space_left = data.get("最大堆叠", 99) - stacked_states.size()
 	var added = min(amount, space_left)
+	
 	for i in range(added):
-		var new_state = {}
-		if data.has("最大耐久") and data["最大耐久"] > 0:
-			new_state["durability"] = data["最大耐久"]
+		# 如果外部传了特定状态（比如 F2 刷的残血鱼），就完美克隆它
+		var new_state = state.duplicate(true) if not state.is_empty() else {}
+		
+		# 如果是自然生成没有传状态，则赋予它满血/满新鲜度的出厂设置
+		if new_state.is_empty():
+			if data.has("最大耐久") and data["最大耐久"] > 0:
+				new_state["durability"] = data["最大耐久"]
+			if data.has("最大新鲜度") and data["最大新鲜度"] > 0:
+				new_state["freshness"] = data["最大新鲜度"]
+				
 		stacked_states.append(new_state)
+		
 	update_display()
-	return amount - added 
+	return amount - added
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if data.is_empty(): return null
@@ -122,7 +149,8 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	var preview_control = Control.new()
 	var preview_card = load("res://scenes/cards/card.tscn").instantiate() 
 	preview_control.add_child(preview_card)
-	
+	# 🌟 开启防缩小护盾，必须在赋值前开启！
+	preview_card.is_drag_preview = true
 	preview_card.set_data(self.data, stacked_states.size())
 	# 复制自己当前的所有状态给预览图
 	preview_card.stacked_states = self.stacked_states.duplicate(true)
@@ -130,7 +158,7 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	preview_card.custom_minimum_size = self.size 
 	preview_card.size = self.size
 	preview_card.position = -self.size / 2 
-	
+	preview_control.z_index = 999
 	set_drag_preview(preview_control)
 	self.modulate.a = 0.3
 	return self

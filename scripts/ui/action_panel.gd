@@ -26,6 +26,7 @@ func _ready() -> void:
 	if crafting_panel:
 		crafting_panel.hide()
 		crafting_panel.modulate.a = 0.0
+		crafting_panel.hidden.connect(func(): is_crafting_open = false)
 	StatusManager.status_changed.connect(_on_environment_changed)
 	_update_move_button_state() # 初始化刷一次
 # === 基础按钮交互 ===

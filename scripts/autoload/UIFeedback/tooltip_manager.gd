@@ -48,8 +48,18 @@ func show_tooltip(card):
 	
 	# 1. 读取耐久度
 	if data.has("最大耐久") and data["最大耐久"] > 0:
-		stats_text += "耐久度: %d / %d\n" % [card.current_durability, data["最大耐久"]]
-		
+		var max_dur = data["最大耐久"]
+		var cur_dur = max_dur
+		if card.get("stacked_states") != null and card.stacked_states.size() > 0:
+			cur_dur = card.stacked_states[0].get("durability", max_dur)
+		stats_text += "耐久度: %d / %d\n" % [cur_dur, max_dur]
+	# 🌟 读取新鲜度（新增）
+	if data.has("最大新鲜度") and data["最大新鲜度"] > 0:
+		var max_fresh = data["最大新鲜度"]
+		var cur_fresh = max_fresh
+		if card.get("stacked_states") != null and card.stacked_states.size() > 0:
+			cur_fresh = card.stacked_states[0].get("freshness", max_fresh)
+		stats_text += "新鲜度: %d / %d\n" % [cur_fresh, max_fresh]	
 	# 2. 读取重量
 	var weight = data.get("重量", 0)
 	if weight > 0:

@@ -120,9 +120,10 @@ func _on_clear_pressed():
 					# 安全地将卡牌扔回地面
 					var ground = get_tree().get_first_node_in_group("ground_zone")
 					if ground:
-						# 【核心修改】逐个吐出数组里的状态，彻底杜绝洗耐久的 Bug！
 						for state in card.stacked_states:
 							ground.add_item(card.data, 1, state)
+					# 🌟 核心修复：先从父节点摘除，再执行销毁，打破延迟帧误判
+					slot.card_container.remove_child(card)
 					card.queue_free()
 			slot.update_ui()
 			slot.state_changed.emit()

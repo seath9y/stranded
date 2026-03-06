@@ -8,6 +8,8 @@ var slot_scene = preload("res://scenes/cards/slot.tscn")
 var item_scene = preload("res://scenes/cards/card.tscn")
 
 var current_slot_count = 0
+# 🌟 新增：是否允许自动扩容（默认关，保护背包；仅在编辑器里给地面区打勾）
+@export var auto_expand: bool = false
 
 func _ready():
 	create_slots(columns * min_rows)
@@ -48,21 +50,23 @@ func add_item(item_data: Dictionary, amount: int = 1, state: Dictionary = {}) ->
 				if not has_card:
 					empty_valid_slots += 1
 					
-		if empty_valid_slots > 0:
+		if empty_valid_slots > 0 or auto_expand:
 			var new_item = item_scene.instantiate()
 			new_item.set_data(item_data, leftover)
 			
 			if not state.is_empty():
 				new_item.apply_dynamic_state(state)
-				
+			
+			# 这里会调用你写好的极其完美的重排机制，它发现格子不够会自动造新格子！	
 			reorganize_cards(new_item, 9999)
 			return 0 
 		else:
 			print("❌ 目标区域已满或被锁定，拒绝放入！")
-			return leftover 
+			return leftover
 			
 	return leftover
-
+	
+	
 func find_first_empty_slot():
 	for slot in slot_container.get_children():
 		var has_card = false

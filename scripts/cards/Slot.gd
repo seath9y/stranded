@@ -10,11 +10,19 @@ func _ready():
 	
 	# 🌟 新增：让槽位自己监听屏幕变化并立刻执行一次
 	get_tree().get_root().size_changed.connect(_update_responsive_size)
-	_update_responsive_size()
+	call_deferred("_update_responsive_size")
+# ================= 🌟 自治响应式引擎 (完美比例版) =================
 func _update_responsive_size():
 	var screen_width = get_viewport().size.x
-	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
-	var target_size = Vector2(base_width, base_width * 1.2)
+	
+	# 【修改系数】：让它稍微大一点，接近你原本的 100 宽度
+	# 在 1920 分辨率下，卡牌大约是 105 像素宽；最低不会低于 80 像素！
+	var base_width = clamp(screen_width * 0.079, 80.0, 130.0)
+	
+	# 【核心修复：绝对尊重你的 0.75 比例！】
+	# 因为你编辑器里设了 ratio = 0.75 (宽度/高度 = 0.75)，所以 高度 = 宽度 / 0.75
+	# 这样算出来的框，和你的节点比例严丝合缝，卡牌再也不会被挤压变小了！
+	var target_size = Vector2(base_width, base_width / 0.75)
 	
 	self.custom_minimum_size = target_size
 	self.size = target_size

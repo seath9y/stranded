@@ -11,18 +11,22 @@ func spawn_initial_items():
 	print("--- 开始生成测试物品 ---")
 	
 	# 【终极清爽】：直接向大管家要数据字典来生成！
-	area_zone.add_item(ItemDB.get_item_base("木头"))
 	#area_zone.add_item(ItemDB.get_item_base("营火"))
 	#area_zone.add_item(ItemDB.get_item_base("火堆"))
 	
-	ground_zone.add_item(ItemDB.get_item_base("椰子"))
-	ground_zone.add_item(ItemDB.get_item_base("椰子"))
-	ground_zone.add_item(ItemDB.get_item_base("生肉"))
-	ground_zone.add_item(ItemDB.get_item_base("草编背篓"))
+	ground_zone.add_item(ItemDB.get_item_base("木头"))
+	ground_zone.add_item(ItemDB.get_item_base("大石块"))
+	ground_zone.add_item(ItemDB.get_item_base("长木棍"))
+	ground_zone.add_item(ItemDB.get_item_base("藤条"))
+	ground_zone.add_item(ItemDB.get_item_base("木头"))
 	
+	ground_zone.add_item(ItemDB.get_item_base("小树枝"))
+	ground_zone.add_item(ItemDB.get_item_base("小石头"))
 	ground_zone.add_item(ItemDB.get_item_base("石斧"))
 	ground_zone.add_item(ItemDB.get_item_base("石斧"))
-	ground_zone.add_item(ItemDB.get_item_base("石斧"))
-	ground_zone.add_item(ItemDB.get_item_base("石斧"))
+	player_zone.add_item(ItemDB.get_item_base("椰子"))
+	player_zone.add_item(ItemDB.get_item_base("椰子"))
+	player_zone.add_item(ItemDB.get_item_base("生肉"))
+	player_zone.add_item(ItemDB.get_item_base("草编背篓"))
 		
 	print("--- 测试物品生成完毕 ---")

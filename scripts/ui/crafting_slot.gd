@@ -12,13 +12,15 @@ signal state_changed
 @onready var card_container = HBoxContainer.new()
 
 func _ready():
+	# 1. 强制撑开水平
 	self.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
 	# 【修改】：按照全尺寸大卡牌的高度 (大概 120 + 上下边距 20) 来撑开槽位！
 	var screen_width = get_viewport().size.x
-	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
-	self.custom_minimum_size = Vector2(0, base_width * 1.2 + 20) 
-
+	var base_width = clamp(screen_width * 0.079, 80.0, 130.0)
+	# 高度同样使用除以 0.75，加上 20 像素的上下边距
+	self.custom_minimum_size = Vector2(350, (base_width / 0.75) + 20)
+	
 	var style = StyleBoxFlat.new()
 	style.bg_color = Color(0.1, 0.1, 0.1, 0.6)
 	style.set_corner_radius_all(8)
@@ -30,19 +32,18 @@ func _ready():
 	main_hbox.add_theme_constant_override("separation", 10)
 	add_child(main_hbox)
 
-	# 左侧信息
-	info_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	info_label.size_flags_stretch_ratio = 1.0 
+	# 🌟 核心修复 2：彻底删掉 autowrap_mode，并给文字区强制分配空间！
 	info_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var margin = MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 15)
+	# 给文字区一个硬性保底宽度（比如150像素），它绝不可能再缩成1个字！
+	margin.custom_minimum_size = Vector2(150, 0)
+	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	margin.add_child(info_label)
 	main_hbox.add_child(margin)
 
-	# 中间放卡牌的容器
+	# 中间放卡牌的容器 (等待卡牌降落的停机坪)
 	card_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card_container.size_flags_stretch_ratio = 1.0 
 	main_hbox.add_child(card_container)
 
 	# 右侧打钩/打叉
@@ -50,23 +51,21 @@ func _ready():
 	status_label.custom_minimum_size = Vector2(40, 0)
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	main_hbox.add_child(status_label)
-
 func setup(tag: String, amount: int, name_desc: String):
 	req_tag = tag
 	req_amount = amount
 	display_name = name_desc
 	
-	# 【修改】：动态计算真实大卡牌的占地宽度！
 	var screen_width = get_viewport().size.x
-	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
-	# 需要的宽度 = 卡牌数量 * 基础宽度 + 卡牌之间的间隙
-	var needed_width = amount * base_width + (amount * 5) 
+	# ⚠️ 同样，这里的小数请和你 Slot.gd 里的保持一致
+	var base_width = clamp(screen_width * 0.079, 80.0, 130.0)
 	
-	card_container.custom_minimum_size = Vector2(needed_width, base_width * 1.2)
+	# 算好卡牌需要的宽度，给停机坪占好位置
+	var needed_width = amount * base_width + (amount * 5) 
+	card_container.custom_minimum_size = Vector2(needed_width, base_width / 0.75)
 	
 	if is_node_ready(): 
 		update_ui()
-
 func get_current_amount() -> int:
 	var total = 0
 	for c in card_container.get_children():

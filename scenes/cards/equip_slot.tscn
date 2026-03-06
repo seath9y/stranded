@@ -15,7 +15,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="EquipSlot" type="AspectRatioContainer" unique_id=245949928 groups=["responsive_slots"]]
+[node name="EquipSlot" type="AspectRatioContainer" unique_id=245949928]
 custom_minimum_size = Vector2(100, 120)
 offset_right = 100.0
 offset_bottom = 120.0

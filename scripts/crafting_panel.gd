@@ -19,6 +19,7 @@ class_name CraftingPanel
 var current_selected_recipe: Dictionary = {}	
 
 func _ready():
+	add_to_group("crafting_panel_group")
 	right_detail_panel.hide()
 	close_btn.pressed.connect(hide_panel)
 	
@@ -181,6 +182,8 @@ func _on_craft_pressed():
 	for slot in requirement_slots.get_children():
 		if slot is CraftingSlot:
 			for card in slot.card_container.get_children():
+				# 🌟 核心修复：必须立刻把它从父节点里踢出去，打破 queue_free 的延迟帧！
+				slot.card_container.remove_child(card) 
 				card.queue_free()
 			slot.update_ui()
 
@@ -195,3 +198,16 @@ func _on_craft_pressed():
 		print("🔨 制作成功：[", item_base.get("名称"), "] x", amount)
 
 	_check_craft_condition()
+func try_receive_card(card) -> bool:
+	if not self.visible: return false
+	
+	# 遍历所有制作槽位
+	for slot in requirement_slots.get_children():
+		if slot.has_method("_can_drop_data") and slot.has_method("_drop_data"):
+			# 直接调用槽位自带的完美验证逻辑
+			if slot._can_drop_data(Vector2.ZERO, card):
+				# 如果能放进去，直接调用槽位的放下逻辑（包含分裂、吸附、格式化尺寸等）
+				slot._drop_data(Vector2.ZERO, card)
+				return true # 成功接收，结束动作
+				
+	return false # 所有槽位都不需要，拒收

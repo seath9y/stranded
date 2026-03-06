@@ -90,8 +90,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "苹果"
+text_overrun_behavior = 4
 
 [node name="Stats2" type="Control" parent="VBox/HeaderMargin/HeaderHBox" unique_id=1035203197]
+visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 mouse_filter = 2

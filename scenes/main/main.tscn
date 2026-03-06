@@ -305,6 +305,9 @@ size_flags_vertical = 3
 [node name="AreaZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer/VBoxContainer/PanelContainer" unique_id=2071155868 groups=["area_zone"] instance=ExtResource("7_hujxm")]
 layout_mode = 2
 size_flags_vertical = 1
+vertical_scroll_mode = 2
+min_rows = 3
+auto_expand = true
 
 [node name="TabContainer" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer" unique_id=443716452]
 visible = false
@@ -371,6 +374,9 @@ size_flags_vertical = 3
 
 [node name="GroundZone" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel/SpecialRow/PanelContainer3/VBoxContainer/PanelContainer" unique_id=820977854 groups=["ground_zone"] instance=ExtResource("7_hujxm")]
 layout_mode = 2
+vertical_scroll_mode = 2
+min_rows = 3
+auto_expand = true
 
 [node name="TabContainer3" type="TabContainer" parent="UI/MainUI/MainHBox/MarginContainer/RightPanel" unique_id=45233010]
 layout_mode = 2

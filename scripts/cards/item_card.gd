@@ -22,23 +22,8 @@ func _ready():
 	add_child(hover_timer)
 	self.mouse_entered.connect(_on_mouse_entered)
 	self.mouse_exited.connect(_on_mouse_exited)
-	get_tree().get_root().size_changed.connect(_update_responsive_size)
-	_update_responsive_size()
 
-func _update_responsive_size():
-	var screen_width = get_viewport().size.x
-	# 基础宽度的算法和 Slot 一模一样，确保完美贴合！
-	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
-	
-	# 扣除 4 像素的边缘，这样放在 Slot 里刚好有一圈呼吸感
-	var target_size = Vector2(base_width, base_width * 1.2) - Vector2(4, 4)
-	
-	self.custom_minimum_size = target_size
-	self.size = target_size
-	
-	# 通知内部的图片、耐久度条重新排版
-	if has_method("update_display"):
-		update_display()
+
 func _on_mouse_entered(): hover_timer.start()
 func _on_mouse_exited(): 
 	hover_timer.stop()
@@ -111,7 +96,7 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	var preview_control = Control.new()
 	var preview_card = load("res://scenes/cards/card.tscn").instantiate() 
 	preview_control.add_child(preview_card)
-	
+	preview_control.z_index = 4096
 	preview_card.set_data(self.data, self.current_count)
 	preview_card.apply_dynamic_state(self.get_dynamic_state())
 	preview_card.modulate.a = 0.6 
@@ -129,6 +114,18 @@ func _notification(what):
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		# ================= 🌟 新增：制作面板最高优先级拦截 =================
+		var crafting_panels = get_tree().get_nodes_in_group("crafting_panel_group")
+		print('111111')
+		if crafting_panels.size() > 0:
+			print('2222')
+			var panel = crafting_panels[0]
+			if panel.visible and panel.has_method("try_receive_card"):
+				if panel.try_receive_card(self):
+					# 只要制作面板成功收下，立刻截断输入事件并返回，绝不触发后续互传！
+					get_viewport().set_input_as_handled()
+					return 
+		# ===============================================================
 		_handle_right_click_transfer(event.shift_pressed)
 
 func _handle_right_click_transfer(is_shift_pressed: bool = false):

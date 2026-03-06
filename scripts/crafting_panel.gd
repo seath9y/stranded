@@ -120,8 +120,9 @@ func _on_clear_pressed():
 					# 安全地将卡牌扔回地面
 					var ground = get_tree().get_first_node_in_group("ground_zone")
 					if ground:
-						var state = card.get_dynamic_state() if card.has_method("get_dynamic_state") else {}
-						ground.add_item(card.data, card.current_count, state)
+						# 【核心修改】逐个吐出数组里的状态，彻底杜绝洗耐久的 Bug！
+						for state in card.stacked_states:
+							ground.add_item(card.data, 1, state)
 					card.queue_free()
 			slot.update_ui()
 			slot.state_changed.emit()
@@ -152,24 +153,29 @@ func _fill_single_slot_from_inventory(slot: CraftingSlot):
 					if c is Card and slot.req_tag in c.data.get("标签", []):
 						valid_cards.append(c)
 	
-	# 智能排序：优先用快坏掉的，优先用便宜的
+	# 【核心修改】智能排序：读取叠放数组中最上面那张的耐久，优先用快坏掉的
 	valid_cards.sort_custom(func(a, b): 
-		return a.current_durability < b.current_durability
+		var dur_a = a.stacked_states[0].get("durability", 999) if a.stacked_states.size() > 0 else 999
+		var dur_b = b.stacked_states[0].get("durability", 999) if b.stacked_states.size() > 0 else 999
+		return dur_a < dur_b
 	)
 
 	# 自动吸附循环
 	for card in valid_cards:
 		if needed <= 0: break
-		var transfer = min(card.current_count, needed)
-		# 代码复用：调用槽位的原生放入逻辑！
+		var transfer = min(card.stacked_states.size(), needed)
 		var temp_card = card
+		
 		# 如果是分裂，制造一张假卡喂给槽位
-		if transfer < card.current_count:
-			card.current_count -= transfer
+		if transfer < card.stacked_states.size():
+			var transfer_states: Array[Dictionary] = []
+			for i in range(transfer):
+				transfer_states.append(card.stacked_states.pop_front())
 			card.update_display()
+			
 			temp_card = load("res://scenes/cards/card.tscn").instantiate()
 			temp_card.set_data(card.data, transfer)
-			if card.data.has("最大耐久"): temp_card.current_durability = card.current_durability
+			temp_card.stacked_states = transfer_states # 转移状态
 			
 		slot._drop_data(Vector2.ZERO, temp_card) 
 		needed -= transfer

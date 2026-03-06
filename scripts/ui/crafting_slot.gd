@@ -69,7 +69,7 @@ func setup(tag: String, amount: int, name_desc: String):
 func get_current_amount() -> int:
 	var total = 0
 	for c in card_container.get_children():
-		if c is Card: total += c.current_count
+		if c is Card: total += c.stacked_states.size()
 	return total
 
 func update_ui():
@@ -95,22 +95,24 @@ func _can_drop_data(at_position: Vector2, drag_data: Variant) -> bool:
 func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 	var card = drag_data as Card
 	var needed = req_amount - get_current_amount()
-	var transfer = min(card.current_count, needed)
+	var transfer = min(card.stacked_states.size(), needed)
 
 	# 如果卡牌数量刚刚好，或者我们全吞了
-	if transfer == card.current_count:
+	if transfer == card.stacked_states.size():
 		var p = card.get_parent()
 		if p: p.remove_child(card)
 		card_container.add_child(card)
 	else:
-		# 如果卡牌太多了，撕下一半放进去！
-		card.current_count -= transfer
+		# 如果卡牌太多了，精准撕下上面几张的状态！
+		var transfer_states: Array[Dictionary] = []
+		for i in range(transfer):
+			transfer_states.append(card.stacked_states.pop_front())
 		card.update_display()
 		
 		var new_card = load("res://scenes/cards/card.tscn").instantiate()
 		new_card.set_data(card.data, transfer)
-		if card.data.has("最大耐久"): 
-			new_card.current_durability = card.current_durability
+		# 【核心修改】把撕下来的状态数组原封不动地塞给新卡牌
+		new_card.stacked_states = transfer_states 
 		card_container.add_child(new_card)
 
 	update_ui()

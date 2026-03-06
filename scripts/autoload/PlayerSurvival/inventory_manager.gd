@@ -114,7 +114,7 @@ func _get_zone_weight(zone: Node) -> int:
 			for child in slot.get_children():
 				if child is Card and not child.data.is_empty():
 					# 【修改】：直接从字典里抓重量
-					total += child.data.get("重量", 0) * child.current_count
+					total += child.data.get("重量", 0) * child.stacked_states.size()
 	return total
 
 # ================= 状态更新与 UI 广播 =================

@@ -31,18 +31,15 @@ func set_locked(locked: bool):
 	if lock_overlay:
 		lock_overlay.visible = is_locked
 		
-	# 格子被上锁了，直接找亲儿子 Card 弹射
 	if is_locked:
 		for child in get_children():
 			if child is Card:
 				var ground_zone = get_tree().get_first_node_in_group("ground_zone")
 				if ground_zone and ground_zone.has_method("add_item"):
-					var state = {}
-					if child.has_method("get_dynamic_state"):
-						state = child.get_dynamic_state()
-					# 【修正】：读取字典里的名称
-					ground_zone.add_item(child.data, child.current_count, state)
-					print("🎒 空间失效，物品掉落至地面: [", child.data.get("名称", "未知"), " x", child.current_count, "]")
+					# 🌟 重构：逐个吐出状态，确保堆叠的异质物品落地时不丢失数据
+					for state in child.stacked_states:
+						ground_zone.add_item(child.data, 1, state)
+					print("🎒 空间失效，物品掉落至地面: [", child.data.get("名称", "未知"), " x", child.stacked_states.size(), "]")
 				
 				child.queue_free()
 
@@ -105,58 +102,71 @@ func _drop_data(at_position: Vector2, drag_data: Variant) -> void:
 
 # --- 辅助方法：处理同类堆叠 ---
 func _handle_stacking(target_card: Card, dropped_card: Card) -> bool:
-	# 【修正】：直接读取最大堆叠数
 	var max_stack = target_card.data.get("最大堆叠", 99)
 	if max_stack <= 1: return false
 		
-	var space_left = max_stack - target_card.current_count
+	var space_left = max_stack - target_card.stacked_states.size()
 	if space_left > 0:
-		var transfer_amount = min(dropped_card.current_count, space_left)
-		target_card.add_count(transfer_amount)
-		dropped_card.current_count -= transfer_amount
+		# 🌟 重构：精准切片拖拽过来的状态数组
+		var transfer_count = min(dropped_card.stacked_states.size(), space_left)
+		var transfer_states = dropped_card.stacked_states.slice(0, transfer_count)
+		
+		# 追加给目标
+		target_card.stacked_states.append_array(transfer_states)
+		target_card.update_display()
+		
+		# 削减拖拽源
+		for i in range(transfer_count):
+			dropped_card.stacked_states.pop_front()
+			
 		dropped_card.update_display()
 		
-		if dropped_card.current_count <= 0:
+		if dropped_card.stacked_states.is_empty():
 			var parent_slot = dropped_card.get_parent()
 			if parent_slot: parent_slot.remove_child(dropped_card)
 			dropped_card.queue_free()
 			return true 
-	return false 
+	return false
 
 # --- 辅助方法：处理工具消耗/耐久度 ---
 func _consume_tool_card(tool_card: Card) -> void:
 	var tool_data = tool_card.data
 	var is_destroyed = false
 	
-	# 【修正】：纯字典读取耐久
+	if tool_card.stacked_states.is_empty(): return
+	var top_state = tool_card.stacked_states[0]
+	
 	if tool_data.has("最大耐久") and tool_data["最大耐久"] > 0:
-		tool_card.current_durability -= 1
-		print("【", tool_data.get("名称", "未知"), "】消耗了1点耐久，剩余：", tool_card.current_durability)
-		if tool_card.current_durability <= 0:
+		var cur_dur = top_state.get("durability", tool_data["最大耐久"])
+		cur_dur -= 1
+		top_state["durability"] = cur_dur
+		print("【", tool_data.get("名称", "未知"), "】消耗了1点耐久，剩余：", cur_dur)
+		
+		if cur_dur <= 0:
 			is_destroyed = true
 			
-	# 【修正】：纯字典读取堆叠消耗
 	elif tool_data.get("最大堆叠", 99) > 1:
-		tool_card.current_count -= 1
-		if tool_card.current_count <= 0:
-			is_destroyed = true
+		is_destroyed = true # 资源被当做材料消耗了一次
 			
 	if is_destroyed:
-		print("【", tool_data.get("名称", "未知"), "】已损坏！")
-		var tool_slot = tool_card.get_parent()
-		if tool_slot: tool_slot.remove_child(tool_card) 
+		print("【", tool_data.get("名称", "未知"), "】已损坏或消耗！")
+		# 🌟 重构：损坏/消耗等同于剥离数组顶层
+		tool_card.stacked_states.pop_front()
 			
-		# 【修正】：如果你以后在字典里配了 "破损产物": "wood"
 		var broken_item_id = tool_data.get("破损产物", "")
 		if broken_item_id != "":
 			var ground_zone = get_tree().get_first_node_in_group("ground_zone")
 			if ground_zone and ground_zone.has_method("add_item"):
-				# 向 ItemDB 索要新字典
 				ground_zone.add_item(ItemDB.get_item_base(broken_item_id), 1)
 				
-		tool_card.queue_free()
-		if tool_slot is Slot and tool_slot.zone_manager:
-			tool_slot.zone_manager.reorganize_cards()
+		if tool_card.stacked_states.is_empty():
+			var tool_slot = tool_card.get_parent()
+			if tool_slot: tool_slot.remove_child(tool_card) 
+			tool_card.queue_free()
+			if tool_slot is Slot and tool_slot.zone_manager:
+				tool_slot.zone_manager.reorganize_cards()
+		else:
+			tool_card.update_display()
 			
 		if EnvironmentManager.has_method("recalculate_environment"):
 			EnvironmentManager.call_deferred("recalculate_environment")

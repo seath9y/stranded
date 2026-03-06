@@ -1,10 +1,12 @@
 extends PanelContainer 
 class_name Card 
 
-# 【核心修改】：现在只存字典了！
 var data: Dictionary = {}
-var current_count: int = 1
-var current_durability: int = -1
+# 🌟 核心重构：彻底取代 current_count 和 current_durability
+# 存储该卡牌叠放的每一个实体的独立状态（如 {"durability": 8}, {"durability": 10}）
+# 索引 0 永远是最上面的一张！
+var stacked_states: Array[Dictionary] = []
+
 var hover_timer: Timer
 
 @onready var icon_rect: TextureRect = $VBox/ContentMargin/Overlay/Icon
@@ -22,7 +24,19 @@ func _ready():
 	add_child(hover_timer)
 	self.mouse_entered.connect(_on_mouse_entered)
 	self.mouse_exited.connect(_on_mouse_exited)
+	get_tree().get_root().size_changed.connect(_update_responsive_size)
+	_update_responsive_size()
 
+func _update_responsive_size():
+	var screen_width = get_viewport().size.x
+	var base_width = clamp(screen_width * 0.045, 60.0, 100.0)
+	var target_size = Vector2(base_width, base_width * 1.2) - Vector2(4, 4)
+	
+	self.custom_minimum_size = target_size
+	self.size = target_size
+	
+	if has_method("update_display"):
+		update_display()
 
 func _on_mouse_entered(): hover_timer.start()
 func _on_mouse_exited(): 
@@ -34,26 +48,30 @@ func _on_hover_timer_timeout():
 	TooltipManager.show_tooltip(self)
 
 func set_data(new_data: Dictionary, amount: int = 1):
-	data = new_data.duplicate() # 保持数据独立
-	current_count = amount
+	data = new_data.duplicate() 
 	
-	# 【修改】：直接读字典里的中文 Key
-	if data.has("最大耐久") and data["最大耐久"] > 0:
-		current_durability = data["最大耐久"]
+	# 兼容旧系统：如果只传了数量，就自动生成基础状态数组
+	stacked_states.clear()
+	for i in range(amount):
+		var base_state = {}
+		if data.has("最大耐久") and data["最大耐久"] > 0:
+			base_state["durability"] = data["最大耐久"]
+		stacked_states.append(base_state)
 			
 	if not is_node_ready(): await ready
 	update_display()
 
 func update_display():
-	if not is_node_ready() or data.is_empty(): return
+	if not is_node_ready() or data.is_empty() or stacked_states.is_empty(): return
 	self.modulate.a = 1.0
 	
 	name_label.text = data.get("名称", "未知物品")
 	if data.has("图标") and data["图标"] != null:
 		icon_rect.texture = data["图标"]
 		
-	# 【修改】：堆叠逻辑简化，默认最大99，如果是1则不可堆叠
 	var max_stack = data.get("最大堆叠", 99)
+	var current_count = stacked_states.size()
+	
 	if max_stack <= 1:
 		number_label.visible = false
 	else:
@@ -62,29 +80,37 @@ func update_display():
 
 	_update_status_indicators()
 
+# 🌟 重构：现在永远只读取数组最上方 [0] 的耐久度
 func _update_status_indicators():
 	for child in status_container.get_children():
 		child.queue_free()
 		
+	if stacked_states.is_empty(): return
+	
+	var top_state = stacked_states[0]
 	if data.has("最大耐久") and data["最大耐久"] > 0:
-		var pct = (float(current_durability) / float(data["最大耐久"])) * 100.0
+		var current_dur = top_state.get("durability", data["最大耐久"])
+		var pct = (float(current_dur) / float(data["最大耐久"])) * 100.0
 		pct = clamp(pct, 0.0, 100.0) 
 		var color = Color.RED if pct <= 30.0 else Color.WHITE
-		_create_status_label("⚙️ %d%%" % int(pct), color)
+		
+		var label = Label.new()
+		label.text = "⚙️ %d%%" % int(pct)
+		label.add_theme_color_override("font_color", color)
+		label.add_theme_font_size_override("font_size", 12) 
+		label.add_theme_color_override("font_outline_color", Color.BLACK)
+		label.add_theme_constant_override("outline_size", 4)
+		status_container.add_child(label)
 
-func _create_status_label(text: String, color: Color) -> void:
-	var label = Label.new()
-	label.text = text
-	label.add_theme_color_override("font_color", color)
-	label.add_theme_font_size_override("font_size", 12) 
-	label.add_theme_color_override("font_outline_color", Color.BLACK)
-	label.add_theme_constant_override("outline_size", 4)
-	status_container.add_child(label)
-
+# 兼容外部简单的数量累加（可能丢失精度，但为了不引发报错保留）
 func add_count(amount: int) -> int:
-	var space_left = data.get("最大堆叠", 99) - current_count
+	var space_left = data.get("最大堆叠", 99) - stacked_states.size()
 	var added = min(amount, space_left)
-	current_count += added
+	for i in range(added):
+		var new_state = {}
+		if data.has("最大耐久") and data["最大耐久"] > 0:
+			new_state["durability"] = data["最大耐久"]
+		stacked_states.append(new_state)
 	update_display()
 	return amount - added 
 
@@ -96,9 +122,10 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	var preview_control = Control.new()
 	var preview_card = load("res://scenes/cards/card.tscn").instantiate() 
 	preview_control.add_child(preview_card)
-	preview_control.z_index = 4096
-	preview_card.set_data(self.data, self.current_count)
-	preview_card.apply_dynamic_state(self.get_dynamic_state())
+	
+	preview_card.set_data(self.data, stacked_states.size())
+	# 复制自己当前的所有状态给预览图
+	preview_card.stacked_states = self.stacked_states.duplicate(true)
 	preview_card.modulate.a = 0.6 
 	preview_card.custom_minimum_size = self.size 
 	preview_card.size = self.size
@@ -114,20 +141,9 @@ func _notification(what):
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		# ================= 🌟 新增：制作面板最高优先级拦截 =================
-		var crafting_panels = get_tree().get_nodes_in_group("crafting_panel_group")
-		print('111111')
-		if crafting_panels.size() > 0:
-			print('2222')
-			var panel = crafting_panels[0]
-			if panel.visible and panel.has_method("try_receive_card"):
-				if panel.try_receive_card(self):
-					# 只要制作面板成功收下，立刻截断输入事件并返回，绝不触发后续互传！
-					get_viewport().set_input_as_handled()
-					return 
-		# ===============================================================
 		_handle_right_click_transfer(event.shift_pressed)
 
+# 🌟 重构核心：基于数组的出栈（Pop Front）与全转移
 func _handle_right_click_transfer(is_shift_pressed: bool = false):
 	var current_slot = get_parent()
 	if not current_slot is Slot: return
@@ -146,35 +162,49 @@ func _handle_right_click_transfer(is_shift_pressed: bool = false):
 	else:
 		targets.append(get_tree().get_first_node_in_group("ground_zone"))
 
-	var amount_to_move = self.current_count if is_shift_pressed else 1
-	var leftover = amount_to_move 
-	var my_state = self.get_dynamic_state()
-	
+	# 决定要转移的状态列表
+	var states_to_move: Array[Dictionary] = []
+	if is_shift_pressed:
+		states_to_move = stacked_states.duplicate(true) # 连锅端
+	else:
+		states_to_move.append(stacked_states[0].duplicate(true)) # 单抽最上面
+
 	for target in targets:
 		if target == null or not target.visible: continue
-		leftover = target.add_item(self.data, leftover, my_state)
-		if leftover == 0: break 
+		if states_to_move.is_empty(): break
+		
+		var next_round_states: Array[Dictionary] = []
+		# 为了兼容 zone_manager 的接口，我们拆成单份循环投递
+		for state in states_to_move:
+			var leftover = target.add_item(self.data, 1, state)
+			if leftover > 0:
+				next_round_states.append(state)
+		states_to_move = next_round_states 
 			
-	var success_count = amount_to_move - leftover
+	var success_count = (stacked_states.size() if is_shift_pressed else 1) - states_to_move.size()
+	
 	if success_count > 0:
-		self.current_count -= success_count 
+		if is_shift_pressed:
+			stacked_states = states_to_move # 剩下没投成功的保留
+		else:
+			stacked_states.pop_front() # 单体投递成功，弹出顶部
+
 		self.update_display()
-		if self.current_count <= 0:
+		if stacked_states.is_empty():
 			if current_slot: current_slot.remove_child(self)
 			self.queue_free()
 			if source_zone and source_zone.has_method("reorganize_cards"): 
 				source_zone.reorganize_cards()
+				
 		EnvironmentManager.call_deferred("recalculate_environment")
 		InventoryManager.call_deferred("recalculate_player_stats")
 
 func get_dynamic_state() -> Dictionary:
-	var state = {}
-	if data.has("最大耐久") and data["最大耐久"] > 0:
-		state["durability"] = current_durability
-	return state
+	if stacked_states.size() > 0:
+		return stacked_states[0].duplicate()
+	return {}
 
 func apply_dynamic_state(state: Dictionary):
-	if state.is_empty(): return
-	if state.has("durability"):
-		current_durability = state["durability"]
+	if state.is_empty() or stacked_states.is_empty(): return
+	stacked_states[0] = state.duplicate()
 	update_display()

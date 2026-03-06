@@ -51,7 +51,7 @@ func add_item(item_data: Dictionary, amount: int = 1, state: Dictionary = {}) ->
 				if not has_card:
 					empty_valid_slots += 1
 					
-		if empty_valid_slots > 0:
+		if empty_valid_slots > 0 or auto_expand:
 			var new_item = item_scene.instantiate()
 			# 🌟 核心修复：抛弃不稳定的 apply_dynamic_state
 			# 先生成一个0数量的空壳，然后用 add_count 把带状态的数据精准砸进去！
@@ -79,7 +79,8 @@ func find_first_empty_slot():
 	return null
 
 func expand_inventory():
-	create_slots(columns)
+	if auto_expand: # 只有开启了扩容开关才真正创建新槽位
+		create_slots(columns)
 
 func reorganize_cards(inserted_card: Card = null, target_index: int = 9999):
 	var all_cards = []
@@ -104,7 +105,21 @@ func reorganize_cards(inserted_card: Card = null, target_index: int = 9999):
 			
 			if old_zone != null and old_zone != self and old_zone.has_method("reorganize_cards"):
 				old_zone.reorganize_cards()
-			
+	# 🌟 核心修复：计算目标槽位数并执行收缩/扩张
+	var min_slots = columns * min_rows 
+	var target_slot_count = max(min_slots, all_cards.size())
+	
+	# 如果多于 12 格且卡牌变少了，删除多余的槽位节点
+	while slot_container.get_child_count() > target_slot_count:
+		var last_slot = slot_container.get_child(slot_container.get_child_count() - 1)
+		slot_container.remove_child(last_slot)
+		last_slot.queue_free()
+		current_slot_count -= 1
+		
+	# 如果卡牌溢出了，创建新槽位
+	while slot_container.get_child_count() < target_slot_count:
+		expand_inventory()
+	# 2. 重新按序放入卡牌
 	for i in range(all_cards.size()):
 		if i >= slot_container.get_child_count():
 			expand_inventory()

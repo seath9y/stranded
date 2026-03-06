@@ -17,6 +17,7 @@ func spawn_initial_items():
 	var axe_data = ItemDB.get_item_base("石斧")
 	ground_zone.add_item(fish_data, 1, {"freshness": 10}) # 快发臭的鱼
 	player_zone.add_item(fish_data, 1, {"freshness": 60}) # 正常的鱼
+	player_zone.add_item(fish_data, 1, {"freshness": 80}) # 正常的鱼
 	ground_zone.add_item(fish_data, 1, {"freshness": 100}) # 刚钓上来的鱼
 	ground_zone.add_item(ItemDB.get_item_base("木头"))
 	ground_zone.add_item(ItemDB.get_item_base("大石块"))

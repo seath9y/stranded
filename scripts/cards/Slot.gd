@@ -113,6 +113,9 @@ func _handle_stacking(target_card: Card, dropped_card: Card) -> bool:
 		
 		# 追加给目标
 		target_card.stacked_states.append_array(transfer_states)
+		# 🌟 修复：合并数组后重新执行排序
+		if target_card.has_method("sort_stacked_states"):
+			target_card.sort_stacked_states()
 		target_card.update_display()
 		
 		# 削减拖拽源

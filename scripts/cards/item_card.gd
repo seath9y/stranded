@@ -50,22 +50,31 @@ func _on_hover_timer_timeout():
 	if not is_instance_valid(self) or data.is_empty() or is_queued_for_deletion(): return
 	TooltipManager.show_tooltip(self)
 
-func set_data(new_data: Dictionary, amount: int = 1):
-	data = new_data.duplicate() 
-	
-	# 兼容旧系统：如果只传了数量，就自动生成基础状态数组
-	stacked_states.clear()
-	for i in range(amount):
-		var base_state = {}
-		
-		base_state["durability"] = 1
+#func set_data(new_data: Dictionary, amount: int = 1):
+	#data = new_data.duplicate() 
+	#
+	## 兼容旧系统：如果只传了数量，就自动生成基础状态数组
+	#stacked_states.clear()
+	#for i in range(amount):
+		#var base_state = {}
 		#if data.has("最大耐久") and data["最大耐久"] > 0:
 			#base_state["durability"] = data["最大耐久"]
-		stacked_states.append(base_state)
+		#stacked_states.append(base_state)
+			#
+	#if not is_node_ready(): await ready
+	#update_display()
+func set_data(new_data: Dictionary, amount: int = 1):
+	data = new_data.duplicate() 
+	stacked_states.clear()
+	
+	# 如果外部调用传了数量，则填充默认状态（会被后续的 add_item 覆盖）
+	if amount > 0:
+		add_count(amount)
 			
-	if not is_node_ready(): await ready
-	update_display()
-
+	# 核心修复：彻底删除 await ready！
+	# 我们靠 _ready() 里的 update_display 来处理初始渲染
+	if is_node_ready():
+		update_display()
 func update_display():
 	if not is_node_ready() or data.is_empty() or stacked_states.is_empty(): return
 	self.modulate.a = 1.0
@@ -122,21 +131,24 @@ func _update_status_indicators():
 		status_container.add_child(label)
 # 🌟 重构：允许在增加数量时，直接注入特定的状态字典
 func add_count(amount: int, state: Dictionary = {}) -> int:
-	var space_left = data.get("最大堆叠", 99) - stacked_states.size()
+	var max_stack = data.get("最大堆叠", 99)
+	var space_left = max_stack - stacked_states.size()
 	var added = min(amount, space_left)
 	
 	for i in range(added):
-		# 如果外部传了特定状态（比如 F2 刷的残血鱼），就完美克隆它
 		var new_state = state.duplicate(true) if not state.is_empty() else {}
-		
-		# 如果是自然生成没有传状态，则赋予它满血/满新鲜度的出厂设置
 		if new_state.is_empty():
 			if data.has("最大耐久") and data["最大耐久"] > 0:
 				new_state["durability"] = data["最大耐久"]
 			if data.has("最大新鲜度") and data["最大新鲜度"] > 0:
 				new_state["freshness"] = data["最大新鲜度"]
-				
 		stacked_states.append(new_state)
+	# 🌟 注入后立刻排序
+	sort_stacked_states()
+	# 只有在节点准备好时才更新 UI，防止空指针
+	if is_node_ready():
+		update_display()
+	return amount - added
 		
 	update_display()
 	return amount - added
@@ -236,3 +248,13 @@ func apply_dynamic_state(state: Dictionary):
 	if state.is_empty() or stacked_states.is_empty(): return
 	stacked_states[0] = state.duplicate()
 	update_display()
+# 🌟 新增内部排序函数
+func sort_stacked_states():
+	if stacked_states.size() <= 1: return
+	
+	stacked_states.sort_custom(func(a, b):
+		# 尝试获取耐久或新鲜度，若都没有则视为 99999（排在最后）
+		var val_a = a.get("durability", a.get("freshness", 99999))
+		var val_b = b.get("durability", b.get("freshness", 99999))
+		return val_a < val_b # 升序：10新鲜度的排在索引 0 (最上面)
+	)

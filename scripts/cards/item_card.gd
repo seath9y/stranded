@@ -184,10 +184,90 @@ func _gui_input(event: InputEvent) -> void:
 		_handle_right_click_transfer(event.shift_pressed)
 
 # 🌟 重构核心：基于数组的出栈（Pop Front）与全转移
+#func _handle_right_click_transfer(is_shift_pressed: bool = false):
+	#var current_slot = get_parent()
+	#if not current_slot is Slot: return
+	#var source_zone = current_slot.zone_manager
+	#if source_zone == null or source_zone.is_in_group("area_zone"): return
+		#
+	#var targets: Array = []
+	#if source_zone.is_in_group("ground_zone"):
+		#var player_zone = get_tree().get_first_node_in_group("group_player_zone")
+		#var equip_zone = get_tree().get_first_node_in_group("group_equip_zone")
+		#if player_zone and player_zone.is_visible_in_tree():
+			#targets.append(player_zone)
+			#targets.append(get_tree().get_first_node_in_group("group_backpack_zone"))
+		#elif equip_zone and equip_zone.is_visible_in_tree():
+			#targets.append(equip_zone)
+	#else:
+		#targets.append(get_tree().get_first_node_in_group("ground_zone"))
+#
+	## 决定要转移的状态列表
+	#var states_to_move: Array[Dictionary] = []
+	#if is_shift_pressed:
+		#states_to_move = stacked_states.duplicate(true) # 连锅端
+	#else:
+		#states_to_move.append(stacked_states[0].duplicate(true)) # 单抽最上面
+#
+	#for target in targets:
+		#if target == null or not target.visible: continue
+		#if states_to_move.is_empty(): break
+		#
+		#var next_round_states: Array[Dictionary] = []
+		## 为了兼容 zone_manager 的接口，我们拆成单份循环投递
+		#for state in states_to_move:
+			#var leftover = target.add_item(self.data, 1, state)
+			#if leftover > 0:
+				#next_round_states.append(state)
+		#states_to_move = next_round_states 
+			#
+	#var success_count = (stacked_states.size() if is_shift_pressed else 1) - states_to_move.size()
+	#
+	#if success_count > 0:
+		#if is_shift_pressed:
+			#stacked_states = states_to_move # 剩下没投成功的保留
+		#else:
+			#stacked_states.pop_front() # 单体投递成功，弹出顶部
+#
+		#self.update_display()
+		#if stacked_states.is_empty():
+			#if current_slot: current_slot.remove_child(self)
+			#self.queue_free()
+			#if source_zone and source_zone.has_method("reorganize_cards"): 
+				#source_zone.reorganize_cards()
+				#
+		#EnvironmentManager.call_deferred("recalculate_environment")
+		#InventoryManager.call_deferred("recalculate_player_stats")
+# scripts/cards/item_card.gd
+
+# 🌟 统一右键逻辑：智能识别“窗口模式”与“常规互传模式”
 func _handle_right_click_transfer(is_shift_pressed: bool = false):
-	var current_slot = get_parent()
-	if not current_slot is Slot: return
-	var source_zone = current_slot.zone_manager
+	# 1. 探测当前是否有打开的接收窗口 (制作、烹饪、蓝图等)
+	var active_window = null
+	var receivers = get_tree().get_nodes_in_group("group_card_receiver")
+	for r in receivers:
+		if r.is_visible_in_tree():
+			active_window = r
+			break
+			
+	var current_parent = get_parent()
+	
+	# --- 情况 A: 当有功能窗口打开时 ---
+	if active_window:
+		# 逻辑 1: 如果卡牌在标准 Slot 里 (说明是在外面：地面、背包、装备栏)
+		if current_parent is Slot:
+			if active_window.try_receive_card(self):
+				return # 成功填入，结束
+			else:
+				return # 即使标签不符没收下，也要拦截掉互传，防止误触
+		# 逻辑 2: 如果已经在窗口容器里，右键则弹出到地面
+		else:
+			_move_to_ground_directly(is_shift_pressed)
+			return
+
+	# --- 情况 B: 常规状态 (无窗口打开)，执行你原有的互传逻辑 ---
+	if not current_parent is Slot: return
+	var source_zone = current_parent.zone_manager
 	if source_zone == null or source_zone.is_in_group("area_zone"): return
 		
 	var targets: Array = []
@@ -205,16 +285,15 @@ func _handle_right_click_transfer(is_shift_pressed: bool = false):
 	# 决定要转移的状态列表
 	var states_to_move: Array[Dictionary] = []
 	if is_shift_pressed:
-		states_to_move = stacked_states.duplicate(true) # 连锅端
+		states_to_move = stacked_states.duplicate(true)
 	else:
-		states_to_move.append(stacked_states[0].duplicate(true)) # 单抽最上面
+		states_to_move.append(stacked_states[0].duplicate(true))
 
 	for target in targets:
 		if target == null or not target.visible: continue
 		if states_to_move.is_empty(): break
 		
 		var next_round_states: Array[Dictionary] = []
-		# 为了兼容 zone_manager 的接口，我们拆成单份循环投递
 		for state in states_to_move:
 			var leftover = target.add_item(self.data, 1, state)
 			if leftover > 0:
@@ -225,13 +304,13 @@ func _handle_right_click_transfer(is_shift_pressed: bool = false):
 	
 	if success_count > 0:
 		if is_shift_pressed:
-			stacked_states = states_to_move # 剩下没投成功的保留
+			stacked_states = states_to_move
 		else:
-			stacked_states.pop_front() # 单体投递成功，弹出顶部
+			stacked_states.pop_front()
 
 		self.update_display()
 		if stacked_states.is_empty():
-			if current_slot: current_slot.remove_child(self)
+			if current_parent: current_parent.remove_child(self)
 			self.queue_free()
 			if source_zone and source_zone.has_method("reorganize_cards"): 
 				source_zone.reorganize_cards()
@@ -239,6 +318,29 @@ func _handle_right_click_transfer(is_shift_pressed: bool = false):
 		EnvironmentManager.call_deferred("recalculate_environment")
 		InventoryManager.call_deferred("recalculate_player_stats")
 
+# 🌟 辅助函数：从窗口中快速弹出到地面
+func _move_to_ground_directly(is_shift_pressed: bool):
+	var ground = get_tree().get_first_node_in_group("ground_zone")
+	if not ground: return
+	
+	var states_to_move = stacked_states.duplicate(true) if is_shift_pressed else [stacked_states[0].duplicate(true)]
+	var success_count = 0
+	
+	for s in states_to_move:
+		if ground.add_item(self.data, 1, s) == 0:
+			success_count += 1
+			
+	if success_count > 0:
+		if is_shift_pressed:
+			stacked_states.clear()
+		else:
+			for i in range(success_count):
+				stacked_states.pop_front()
+		
+		update_display()
+		if stacked_states.is_empty():
+			if get_parent(): get_parent().remove_child(self)
+			queue_free()
 func get_dynamic_state() -> Dictionary:
 	if stacked_states.size() > 0:
 		return stacked_states[0].duplicate()

@@ -16,7 +16,7 @@ script = ExtResource("1_lar0k")
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.08
-anchor_right = 0.22
+anchor_right = 0.18
 anchor_bottom = 1.0
 
 [node name="MarginContainer" type="MarginContainer" parent="LeftListPanel" unique_id=1402903126]
@@ -74,9 +74,9 @@ layout_mode = 2
 [node name="RightDetailPanel" type="PanelContainer" parent="." unique_id=454697607]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.22
+anchor_left = 0.18
 anchor_top = 0.08
-anchor_right = 0.6
+anchor_right = 0.55
 anchor_bottom = 0.6
 offset_right = 40.0
 offset_bottom = 40.0
@@ -106,8 +106,14 @@ layout_mode = 2
 [node name="HSeparator2" type="HSeparator" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=705947662]
 layout_mode = 2
 
-[node name="RequirementSlots" type="VBoxContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=1094177270]
+[node name="ScrollContainer" type="ScrollContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=2023023246]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RequirementSlots" type="HFlowContainer" parent="RightDetailPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=30295627]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Spacer2" type="Control" parent="RightDetailPanel/MarginContainer/VBoxContainer" unique_id=1843601652]
 layout_mode = 2
@@ -117,9 +123,12 @@ layout_mode = 2
 
 [node name="AutoFillBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1481225986]
 layout_mode = 2
+text = "自动填充"
 
 [node name="ClearBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1284677294]
 layout_mode = 2
+text = "清除"
 
 [node name="CraftBtn" type="Button" parent="RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox" unique_id=1132356838]
 layout_mode = 2
+text = "确认"

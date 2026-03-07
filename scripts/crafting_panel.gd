@@ -11,7 +11,7 @@ class_name CraftingPanel
 @onready var item_icon = $RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox/ItemIcon
 @onready var item_name = $RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox/TextVBox/ItemName
 @onready var item_desc = $RightDetailPanel/MarginContainer/VBoxContainer/InfoHBox/TextVBox/ItemDesc
-@onready var requirement_slots = $RightDetailPanel/MarginContainer/VBoxContainer/RequirementSlots
+@onready var requirement_slots = $RightDetailPanel/MarginContainer/VBoxContainer/ScrollContainer/RequirementSlots
 @onready var auto_fill_btn = $RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox/AutoFillBtn
 @onready var clear_btn = $RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox/ClearBtn
 @onready var craft_btn = $RightDetailPanel/MarginContainer/VBoxContainer/ActionHBox/CraftBtn
@@ -89,6 +89,11 @@ func _on_recipe_selected(recipe: Dictionary, item_base: Dictionary):
 func _generate_requirement_slots(requirements: Array):
 	for child in requirement_slots.get_children():
 		child.queue_free()
+	
+	# 如果你在代码里动态设置间距
+	if requirement_slots is HFlowContainer:
+		requirement_slots.add_theme_constant_override("h_separation", 15)
+		requirement_slots.add_theme_constant_override("v_separation", 15)
 		
 	for req in requirements:
 		var slot = CraftingSlot.new()

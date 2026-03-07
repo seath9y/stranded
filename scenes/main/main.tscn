@@ -476,5 +476,5 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.6666667, 0, 0, 1)
 
-[node name="CraftingPanel" parent="UI" unique_id=1551504235 instance=ExtResource("21_pg34l")]
+[node name="CraftingPanel" parent="UI" unique_id=1551504235 groups=["group_card_receiver"] instance=ExtResource("21_pg34l")]
 z_index = 10
